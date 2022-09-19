@@ -16,7 +16,7 @@ bible = {
     'neh ne':'nehemiah',
     'esther':'est esth es',
     'job jb iob ib':'job',
-    'ps psalm pslm psa psm pss psal':'psalms',
+    'ps psalm pslm psa psm pss psal psalme':'psalms',
     'prov pro prv pr prou pru prouerb prouerbs':'proverbs',
     'eccles eccle ecc ec qoh':'ecclesiastes',
     'cant cantic canticle cantica':'canticles',
