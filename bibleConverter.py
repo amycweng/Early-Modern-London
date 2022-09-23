@@ -14,7 +14,7 @@ bible = {
     'chron chr ch':'chronicles',
     'ezr ez':'ezra',
     'neh ne':'nehemiah',
-    'esther':'est esth es',
+    'est esth es':'esther',
     'job jb iob ib':'job',
     'ps psalm pslm psa psm pss psal psalme':'psalms',
     'prov pro prv pr prou pru prouerb prouerbs':'proverbs',

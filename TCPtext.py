@@ -10,7 +10,7 @@ def text(soup):
         text = pattern1.sub('',text)
         pattern2 = re.compile(r'</hi>|<hi>', re.DOTALL)
         text = pattern2.sub(' ',text)
-        pattern3 = re.compile(r'<note place="marg">(.*?)</note>', re.DOTALL)
+        pattern3 = re.compile(r'<note(.*?)place="marg">(.*?)</note>', re.DOTALL)
         text = pattern3.sub(' ',text)
         pattern4 = re.compile(r'<.*?>|\n', re.DOTALL)
         text = pattern4.sub(' ',text)
@@ -39,6 +39,7 @@ def getLemmaDict(path):
     lemmaDict = ast.literal_eval(data)
     print(type(lemmaDict))
     return lemmaDict
+lemmaDict = getLemmaDict('/Users/amycweng/Digital Humanities/ECBC-Data-2022/2b) stageTwo/lemmas.txt')
 
 def replaceTextLemma(textString,lemmaDict):
     for key,value in zip(list(lemmaDict.keys()), list(lemmaDict.values())):
@@ -57,24 +58,41 @@ def replaceNumBook(text,numBook):
         text = re.sub(rf'\b{key}\b| {key} ', f' {value} ', text)
     return text
 
+def getfromfolder(inputfolder):
+    for file in os.listdir(inputfolder):
+        pathName = f'{inputfolder}/{file}'
+        tcpid = file[0:6]
+        folder = f'{inputfolder}TXT'
+        getTextandNotes(pathName,tcpid, folder)
 
-for file in os.listdir('perkins'):
-    pathName = f'/Users/amycweng/Digital Humanities/perkins/{file}'
-    name = file[0:6]
+def getTextandNotes(pathname, name,folder):
     print(f'processing {name}')
-    data = open(pathName,'r')
+    data = open(pathname,'r')
     data = data.read()
     bodyTag = SoupStrainer("body")
     soup = BeautifulSoup(data,parse_only=bodyTag,features='html.parser')
-    lemmaDict = getLemmaDict('/Users/amycweng/Digital Humanities/ECBC-Data-2022/2b) stageTwo/lemmas.txt')
-    with open(f'perkinsTXT/{name}.txt', 'w+') as file:
+    with open(f'{folder}/{name}.txt', 'w+') as file:
         bodytext = text(soup).lower()
-        bodytext = replaceBible(bodytext,bible)
-        bodytext = replaceNumBook(bodytext,numBook)
         cleaned = cleanText(bodytext)
         bodytext = replaceTextLemma(cleaned,lemmaDict)
         file.write(bodytext) 
-    # with open(f'perkinsTXT/{name}NOTES.txt',"w+") as file:
-    #     notetext = notes(soup)
-    #     file.write(notetext)
+    with open(f'{folder}/{name}NOTES.txt',"w+") as file:
+        notetext = notes(soup)
+        file.write(notetext)
+
+# tcpID = 'A19588'
+# TCPfolder = '/Users/amycweng/Digital Humanities/TCP'
+# found = False
+# for file in os.listdir(f'{TCPfolder}/P1{tcpID[0:2]}'): 
+#     if file[0:6] == tcpID: 
+#         path = f'{TCPfolder}/P1{tcpID[0:2]}/{tcpID}.P4.xml'
+#         found = True
+#         break
+# if not found: 
+#     for file in os.listdir(f'{TCPfolder}/P2{tcpID[0:2]}'):
+#         if file[0:6] == tcpID: 
+#             path = f'{TCPfolder}/P2{tcpID[0:2]}/{tcpID}.P4.xml'
+# getTextandNotes(path,tcpID,'/Users/amycweng/Digital Humanities/')
+
+getfromfolder('/Users/amycweng/Digital Humanities/charity')
  
