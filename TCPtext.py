@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup,SoupStrainer
 import re,ast,os
-from bible import bible, numBook
 
 def text(soup):
     text_list = []
@@ -94,5 +93,5 @@ def getTextandNotes(pathname, name,folder):
 #             path = f'{TCPfolder}/P2{tcpID[0:2]}/{tcpID}.P4.xml'
 # getTextandNotes(path,tcpID,'/Users/amycweng/Digital Humanities/')
 
-getfromfolder('/Users/amycweng/Digital Humanities/charity')
- 
+# getfromfolder('/Users/amycweng/Digital Humanities/charity')
+getfromfolder('/Users/amycweng/Digital Humanities/perkins')
