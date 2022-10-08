@@ -1,8 +1,6 @@
 publishers = {
-    'Thomas Thorpe': 'Thomas Thorpe',
     'Thomas Thorppe':'Thomas Thorpe',
     'Nathanael Butter':'Nathaniel Butter',
-    'Nathaniell Butter':'Nathaniel Butter',
     'Nathaniell Butter':'Nathaniel Butter',
     'Nat Butter':'Nathaniel Butter',
     'Nath Butter':'Nathaniel Butter',
@@ -10,8 +8,6 @@ publishers = {
     'N Butter':'Nathaniel Butter',
     'N athaniel Butter':'Nathaniel Butter',
     'Na Butter':'Nathaniel Butter',
-    'Nathnaiell sic Butter':'Nathaniel Butter',
-    'N athaniel Butter':'Nathaniel Butter',
     'Nathanaell Butter':'Nathaniel Butter',
     'Andrevv Crooke':'Andrew Crooke',
     'Andrew Crook':'Andrew Crooke',
