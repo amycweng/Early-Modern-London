@@ -37,7 +37,6 @@ def getLemmaDict(path):
     with open(path) as f:
         data = f.read()
     lemmaDict = ast.literal_eval(data)
-    print(type(lemmaDict))
     return lemmaDict
 lemmaDict = getLemmaDict('/Users/amycweng/Digital Humanities/ECBC-Data-2022/2b) stageTwo/lemmas.txt')
 
@@ -111,7 +110,7 @@ def textEP(soup):
             text_list.append(sibling['lemma'])
     return ' '.join(text_list)
 
-def convert(tcpIDs):
+def convert(tcpIDs,getNotes,outputfolder):
     folder = f'/Users/amycweng/Digital Humanities/{outputfolder}'
     count = 0
     for id in tcpIDs:
@@ -137,15 +136,3 @@ def convert(tcpIDs):
                 file.write(notetext)
         count += 1 
         if not count % 10: print(f'processed {count}')
-
-# ids for the plays in Sarah's spreadsheet 
-tcpIDs = ['A03208','A03197','A20100','A07493','A04633','A11153','A18407',
-        'A19260','A07524','A07505','A04648','A11146','A20083','A20098',
-        'A07065','A07025','A02092','A03224','A12078','A18427','A12142',
-        'A77565','A77567','A53070','A46228','A59985','A04645','A12140',
-        'A06252']
-getNotes = False
-outputfolder = 'playsTXT'
-convert(tcpIDs)
-print(underscores)
-convert(underscores)
