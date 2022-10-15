@@ -61,12 +61,12 @@ def replaceNumBook(text,numBook):
 EP = '/Users/amycweng/Digital Humanities/eebotcp/texts'
 TCP = '/Users/amycweng/Digital Humanities/TCP'
 underscores = []
-def findText(id):
+def findText(id,getActs):
     foundEP = False
     for file in os.listdir(f'{EP}/{id[0:3]}'):
         if id in file: 
-            foundEP = True 
-            if '_' in file:
+            foundEP = True                 
+            if '_' in file and not getActs:
                 trueID = file.split('.')[0]
                 if trueID in underscores: path = f'{EP}/{id[0:3]}/{file}'
                 else: 
