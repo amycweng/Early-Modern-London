@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup,SoupStrainer
 import re,ast,os
-import pandas as pd 
 
 def text(soup):
     text_list = []
