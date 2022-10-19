@@ -109,11 +109,11 @@ def textEP(soup):
             text_list.append(sibling['lemma'])
     return ' '.join(text_list)
 
-def convert(tcpIDs,getNotes,outputfolder):
+def convert(tcpIDs,outputfolder):
     folder = f'/Users/amycweng/Digital Humanities/{outputfolder}'
     count = 0
     for id in tcpIDs:
-        path,source = findText(id)
+        path,source = findText(id,False)
         if path == '': continue
         with open(path,'r') as file: 
             data = file.read()
@@ -129,9 +129,5 @@ def convert(tcpIDs,getNotes,outputfolder):
             cleaned = cleanText(bodytext)
             bodytext = replaceTextLemma(cleaned,lemmaDict)
             file.write(bodytext) 
-        if getNotes: 
-            with open(f'{folder}/{id}NOTES.txt',"w+") as file:
-                notetext = notes(soup)
-                file.write(notetext)
         count += 1 
         if not count % 10: print(f'processed {count}')
