@@ -151,18 +151,20 @@ def getMarginalia(filepath):
         
     return notes_list,special_cases
 
-filepath = '/Users/amycweng/Digital Humanities/TCP/P1A0/A01523.P4.xml'
-margin, specials = getMarginalia(filepath)
-print(margin)
-missing = []
-for entry in specials: 
-    name = re.search(r'\b[A-Za-z]+\b',entry)
-    if name is not None: 
-        name = name.group()
-        if len(name) < 2: continue
-        if name not in bibleBooks and name not in missing:
-            missing.append(name)
-print(f'Here are the potential Biblical citations that the current standardization dictionary missed: {missing}. Please update the standardizer dictionary accordingly.')
+if __name__ == '__main__': 
+    # sample filepath: /Users/amycweng/Digital Humanities/TCP/P1A0/A01523.P4.xml
+    filepath = input('Enter the path of a TCP XML file: ')
+    margin, specials = getMarginalia(filepath)
+    print(margin)
+    missing = []
+    for entry in specials: 
+        name = re.search(r'\b[A-Za-z]+\b',entry)
+        if name is not None: 
+            name = name.group()
+            if len(name) < 2: continue
+            if name not in bibleBooks and name not in missing:
+                missing.append(name)
+    print(f'Here are the potential Biblical citations that the current standardization dictionary missed: {missing}. Please update the standardizer dictionary accordingly.')
 
 # test1 = 'rom. 12. 12. rom 12.      12. 2 cor 23. 23. 1 tim. 11.11.'
 # test2 = '1 cor. 12. 4, 6, 11. 2 cor. 12, 27. 30. eccle 12. 12, 14, 15, 16. 1 sam. 7. 15, 16. iohn 11. , 36. zech. 5. 3, 4.'
