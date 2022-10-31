@@ -1,0 +1,623 @@
+Rom 5 12
+Gen 2 6
+Ephe 2 1 2 3
+Rom 5 12
+Psal 5 5
+Rom 5 12
+Gen 6 5
+Deut 27 27
+Rom 1 18
+Mat 1 26
+Psal 49 7 8 9
+Psal 130 3
+Rom 7 8 9
+Act 2 37
+Act 2 37
+Ioel 2 12 13
+Mat 11 28
+Ezra 10 2
+Psal 95 7
+Heb 4 7
+Psal 4 4
+Lament 3 40
+1 Sam 15 30
+Dan 9 3 5
+Luk 1 26 6
+Psal 90 12
+1 Cor 11 32
+Heb 12 16 27
+1 Sam 7 1
+Act 2 37
+Math 11 28
+Math 9 12
+1 Kin 21
+Mat 27 5
+Iohn 3 16
+1 Tim 1 14 15 16
+1 Pet 1 18 18
+Mat 1 21
+1 Ti 2 16
+Act 4 12
+Esa 53 5
+Rom 5 18
+1 Cor 1 30 31
+Ioh 1 12
+Luke 5 31
+Mat 11 28
+Rom 10 14 17
+Act 16 14
+Ioh 1 43 47
+Act 19 6
+1 Ti 1 16
+Act 9 26 27
+1 Cor 14 24
+Actes 2 47
+Ioh 7 37
+Iohn 6 44
+Mat 13 46
+Mat 11 29
+1 Ioh 3 23
+Iudg 6 17
+Iudg 6 13
+1 Pet 2 2
+Psal 32 5
+Heb 10 38
+Heb 11 34
+Ioh 13 1
+Psal 77 1 12
+Rom 5 11
+1 Pet 1 8
+Cant 5 8
+1 Ioh 3 14
+Psal 77 6
+Psal 126 12
+Iohn 14 22
+1 Thes 5 14
+2 Cor 5 6 8
+Ier 31 18 19
+Rom 5 8
+Tit 2 11
+Ephes 2 10
+1 Pet 1 17
+Rom 6 4 5 6
+2 Cor 5 17
+1 Ioh 5 20
+Rom 6 2 4 5 6
+Rom 6 25
+Rom 7 14
+Pro 4 23
+Mat 4 10
+Act 26 18
+1 Pet 2 2
+1 Pet 2 2
+Act 13 1
+Ier 8 6 7
+Ephe 6 14
+Luke 18 1
+Luk 22 17
+Iob 1 5
+Heb 11 6 Petition 5
+Heb 3 12
+Act 24 6
+Deut 5 20
+Mat 26 41 Petition 4
+Thes 5 18
+Rom 5 1
+Phil 4 4
+1 Cor 10 31
+Apo 3 17
+Iere 13 23
+1 Pet 1 5
+Rom 12 2
+Iam 2 10
+Pro 4 13
+2 Chr 25 2
+Prou 4 18
+Can 5 2
+Can 3 4
+1 Ioh 1 3
+Phill 2 21
+ 1 2
+ 19 28 29
+Ephse 4 16
+Mat 7 24
+Pro 27 7
+Ephe 5 8
+Iohn 17 1
+Phil 1 21
+Esa 50 4
+Col 1 13
+Luk 
+Mat 16 18
+Bradford
+Mat 9 24
+Psal 77 9
+Psal 42 11
+Rom 7 5
+Iohn 1 3 23
+Rom 4 18
+Rom 10 12
+Heb 11 1
+Rom 8 23
+Iob 13 15 16
+Reue 2 6
+Phil 1 6
+Psal 69 4
+Heb 5 7
+Rom 5 20
+Rom 8 1
+Cant 2 5
+Rom 8 5
+Mal 3 17
+Rom 8 25
+Psal 19 88
+Psal 119 5
+Psal 77 2 3 7
+Cant 3 1
+Cant 5 4 5 6
+Rom 5
+Cant 1 13
+Luk 22 31
+Act 24 22
+Deut 28 21 22
+1 Sam 5 9
+Rom 9 19
+Hos 6 1
+2 King 1 3
+1 Chro 16 12
+Leuit 26 14 15 16
+2 Sam 24 15
+Exod 5 3
+1 Cor 11 30
+Num 16 49
+Numb 14 3 12
+Iohn 9 2 1
+Luk 23 1 2 3
+1 Cor 11 32
+Psal 107 12
+Psal 21 18
+Psal 30 6
+Ephes 2 4
+Exod 34 6
+Heb 12 7
+1 Cor 10 13
+Iob 2 7
+Psal 55 4 5
+Mat 12 50
+Luk 16 24
+Luk 12 5
+Psal 14 3
+Iam 2 3
+Rom 6 23
+Deu 27 26
+Gen 48 1
+Iob 27
+2 kin 13 14
+2 kin 20 1
+Ioh 11 15
+Heb 12 6
+1 Cor 2 9
+Rom 8 28
+Luk 24 26
+Heb 4 15
+Iam 5 13
+2 king 20 2
+Psal 19 10
+Psal 119 92
+Esa 66 23
+Reue 21 4
+Eccle 38 1
+Mat 8 15
+2 kin 20 7
+Ioh 9 6
+2 king 20 1
+Psal 5 3 4
+Psal 119
+Dan 6 10
+Hos 14 2
+Psalm 3
+Psalm 116
+Gen 3 19
+Ephe 4 28
+2 Thes 3 6 10
+1 Cor 7 20
+Pro 20 4
+Colos 3 14
+Dan 12 3
+Pro 20 5
+Col 3 12
+Iud 20
+1 Sam 23 16
+Iames 3 6
+Heb 10 24
+1 Tim 6
+Ephes 5 16
+Mat 13 8
+Psal 19 14
+Psal 119
+Soliloque Aug aph 5
+Ier 9 23
+Luk 6 29
+Luk 6 23
+1 Tim 4 8
+Iosh 15 9
+Psal 3 2
+How to carry our selues in aduersitie
+Psal 37
+Iames 1 2
+1 Pet 1 6
+Ephes 5
+Hb 13
+Psal 13
+Psal 11
+Gen 18 19
+2 Ti 30 15
+Col 3 16
+Psal 55 17
+Dan 6 10
+Iosh 24 13
+Act 10 2
+Deut 6 7
+1 Pet 3 5
+2 Thes 9 17
+Ioh 5 14
+Ephes 4 26
+Heb 3 12
+Iob 1 5
+Psal 92
+Leuit 23 23
+Act 20 27
+1 Thes 5 16 17
+Act 10 33
+Pro 8
+Psal 110
+Eccle 4 17
+Isa 6 9
+Gen 28
+Eccle 5
+1 Tim 2 8
+Eccle 4 17
+Luk 24 13
+Deut 6
+Deut 6 6
+Act 17
+Psal 147
+Heb 6 1
+1 Cor 16 1
+Nehe 8 10
+Actes 36
+Iames 3
+Iob 31
+Col 3
+Iames 3
+1 Cor 14
+Iosh 24 15
+Gen 14 14 and 18 19
+1 Sam 10 16
+2 Sam 2 1
+1 Cor 10 32
+Mat 15 18
+Gal 6 10
+2 Chr 16
+Ier 12 2
+Rom 12 16
+Rom 14 23
+Eccles 12 23
+Pro 5 8  6 27 28
+Eccles 1 13
+1 Cor 10 32
+Rom 7 8
+2 Cor 11 31
+1 Pet 2 17
+Act 10 35
+Psal 15 3
+Iob 17 3
+Psal 15 4
+Prou 4 23
+Luk 24 34
+Deut 28 58
+Rom 12 11
+1 Cor 11 28
+Prou 17 27  10 19
+Psal 15 3
+Mat 12 36
+1 Thes 5 18
+Eccles 7 11
+1 Cor 15 56
+Psal 39 9
+Math 5 39
+1 Thes 5 19
+Psal 1 2
+Iob 31 1
+Iam 1 2
+Mat 5 23
+Mat 23 26
+Heb 3 12
+Rom 1 12 16  1 12
+Eccles 5 3 4
+1 Ioh 4 20
+1 Cor 7 31
+Psal 37 34
+Ezech 9 4
+1 Cor 6 20
+Ephes 4 1
+1 Tim 6 8
+Rom 12 16
+Psal 69 9
+Tit 2 3
+Acts 17 11
+Col 4 6
+Iam 1 16
+Luke 2 19
+Rom 9 5
+Gal 6 1
+Psal 55 17
+Psal 1 2
+Exod 20 8
+Psa 65 11
+Psal 3 8
+Exo 23 1
+Eph 5 1 6 1
+1 Cor 11 28
+Gen 3 19
+Esay 58 5 6
+Gen 18 17
+1 Cor 10 32 33
+1 Cor 5 2
+1 Thes 5 15
+Rom 15 16 30
+Iam 5 12
+Dent 6 7
+Isa 85 13
+Psal 127 2
+1 Tim 4 4 5
+Pro 3 33
+Psal 119 115
+Ios 24 15
+Hest 4 16
+Act 10 1
+Ioh 14 6
+Psal 95
+Phil 4
+Ephes 5
+Gen 1 26
+Rom 5 12
+1 Foreknowledge
+1 Pet 1 2
+2 Election
+Rom 9 11
+3 Purpose
+Ephes 11
+4 Predestination
+5 Calling
+6 Iustification
+7 Sanctification
+8 Gloryfication
+Note that foure of the former 8 degrees are executed in time though they were decreed before all worlds
+Mans misery in the state of nature
+Sinne extendeth it selfe to the whole man both soule and body
+Man in the state of nature cannot please God
+A naturall man may doe that vvhich is in it selfe good but not good to him that doth it
+A meerely naturall man cannot see his misery
+A naturall man hath a minde that neither sees nor can see the things that be of God
+A will that neither is nor can be subiect to the law of God
+This sets forth Gods povver and grace to be the greater because it restores mans nature being so farre peruerted
+The best affections of vvicked men please not God
+A naturall man a slaue to the Diuell
+Hovv to perceiue our subiection to the Diuell
+None can be saued but the regenerate
+What Regeneration is
+The quality of regeneration
+Till a man be borne againe he cannot desire that vvhich is good
+Signes of regeneration
+Eight infallible signes of regeneration
+Where there is regeneration there is also mortification
+What Mortification is
+Mortification consists in two things
+A tryall of Mortification
+Sanctification a true marke of a liuing soule
+Wee must sanctifie both body and soule to the Lord
+What is required to be sanctified
+Our sanctification must be constant and continuall
+It must not be maymed
+From sanctification ariseth repentance
+What repentance is
+Many are deceiued in repentance
+How to try our repentance
+The difference betweene the godly and wicked in one and the same sinne
+Three tokens manifesting this difference
+Seauen signes of true Repentance
+The first is Care
+The second is a clearing of our selues
+The third is Indignation
+The fourth is Feare
+The fift is Desire
+The sixt is Zeale
+The seauenth is Reuenge
+What Faith is
+Try it tvvo waies
+A further tryall
+The tryall of our faith is not made in the time of prosperity
+Our vnion vvith Christ
+Three especiall benefits had by our vnion vvith Christ
+What Iustification is
+From Iustification arises diuers benefits both outvvard and invvard
+Reconciliation
+Afflictions are not punishments for sinne but fatherly chastisements
+Peace of conscience
+Enterance vvith boldnes into Gods presence
+A spiritual Ioy in the heart
+Feeling of Gods loue
+The graces of God  his spirit are not seuered
+3 Arguments to proue that the regenerate are sure of perseuerance
+First from the nature of God that begets vs
+The second from the nature of the thing begotten
+The third from the nature of that seede vvhereof we are begotten
+The second main question in religion is who are Christians
+A soueraigne rule whereby Christians of all sorts must bee tryed
+The operations of the spirit are twofold
+Externall common to all men
+Internall proper to the godly
+3 Effects wrought by the speciall operation of the spirit in the godly
+Sanctification
+Intercession
+Consolation
+That christian vvho hath Gods spirit knowes he hath him
+It is the glory of a Christian that Christ dwels in him
+The benefits that come by Christs dwelling in vs
+Repayres the lodge
+Prouides all necessaries
+3 Three speciall comforts by Christs dvvelling in vs
+The second maine benefit is Adoption
+From Adoption proceedes many benefits
+The assurance of adoption by two notes
+The first is feruent prayer
+The second is a Filliall loue
+Sanctification the third maine benefit
+Sanctification of the minde
+The difference betvveene spirituall vnderstanding and spirituall vvisedome
+How to get true wisedome
+What the Feare of God is
+How to obtaine it
+How to walke wisely
+Sanctification of the Memory
+Sanctification of the Conscience
+Sanctification of the Will
+Sanctification of the Affections
+Of our sanctified affections especially foure to be marked
+Zeale of Gods glory
+Feare of God
+Hatred of sinne
+Reioycing at the day of Iudgement
+Sanctification of the body
+How to keepe faith
+What loue is
+The first property of loue it longs to obtaine that which is beloued
+The second effect is obedience
+The third effect is bountifulnesse
+How to loue our enemies
+Examples of loue
+In Dauid
+In Elisha
+2 Kings 6 14 19 21
+In Christ
+In Steuen
+What Mercy is
+The effects
+The duties of Mercy
+Who is a mercifull man
+Motiues to mercie
+Rules for the exercise of Mercy
+1 Rule
+2 Rule
+3 Rule
+What Meeknesse is
+The effects thereof
+Wherein meeknesse must not be shewed
+The cause of meekenesse
+Motiues to meeknesse
+What Patience is
+Without Patience no grace can be preserued
+How to suffer patiently vnder the Crosse
+Whar long suffring is
+Example thereof in Abraham
+What Humilitie is
+The effects thereof
+What Peace is
+A twofold peace
+Good Peace threefold
+True peace hath sixe heads
+How to get and keepe true Peace of conscience
+What Pride is
+Companions of pride fiue
+Pride of all other sins most dangerous
+Nine branches of Pride
+How to detest Pride
+How to auoyd Pride
+What couetousnes is
+Foure sorts of couetousnesse
+How to detest couetousnes
+How to auoid couetousnesse
+What Luxury is
+Sorts and kindes of Luxury
+Nine forerunners of Luxury
+How to detest Luxurie
+How to auoid Luxurie
+What Enuie is
+It is twofold
+Good enuie
+Bad enuie which hath fiue branches
+How to detest enuie
+How to auoyde Enuie
+What gluttony is
+Tvvo sorts thereof
+How to detest gluttony by eleuen dangerous effects
+Eight circumstances to cause a detestation of it
+How to auoyd gulttony
+What wrath is
+Eleauen Branches of Wrath
+How to detest wrath
+How to auoid vvrath or anger
+Idlenesse what it is
+Eleauen branches of it
+How to detest it
+How to auoid sloth
+What sin is
+What the punishment thereof is
+How to resist sin in generall
+What we are to doe before the combat with the Diuell
+7 weapons wherewith to fight with the Diuell
+What to doe in the combat
+First we must kill sin in the very conception
+Sinne like to a canker
+We must deny our owne strength
+We must not beleeue the Diuell though he speake truth
+We must make resistance which is two waies
+First weakening the ability of sinne
+Secondly opposing his contraries
+That we compare not the paine of resistance with the pleasure of sinne
+If the Diuell once be foyled he is much quailed  thou more strengthened
+To marke the Diuels subtilties and cunning deuises
+The Diuel fitteth his temptations to our inclinations
+What to doe after the combat
+To prepare our selues for a nevv combat
+Sathans subtiltie should make vs to shun carelesse securitie
+A speciall meditation in the time of temptation
+It is not enough to auoid euill but vvee must doe good
+Fiue rules specially to be obserued in euery action that shalbe pleasing to the Lord
+The graces of Gods spirit apparant in some should make vs labour to finde them in our selues
+Comforts to the weake Christians
+Faith and the graces of Gods spirit may be true in him who yet desires them not
+Note
+He who hath the spirit of Christ dwelling in him shal neuer see damnation
+Mat 4 3 6
+Marke 5 7
+Heb 4 2  6 4 5
+2 Pet 2 20
+Iam 2 19
+Marke 5 7  Mark 1 24
+Mat 8 29
+Act 26 26 27
+Mat 10 7 8
+Mat 7 22
+Mat 13 20 21
+Mark 6 20
+Act 24 26
+Act 26 28
+Gen 4 13
+1 Sam 15 24 25  26 21
+Mat 27 17 23
+Mat 14 9
+1 King 21 27
+Mat 27 3 45
+Ioh 13 2
+Acts 8
+Mat 26 22
+Math 6 20
+2 King 10 16 18
+1 King 21 29
+Exod 9 28
+Acts 8 24
+Luk 18 11
+Mat 7 21
+Mat 25 12
