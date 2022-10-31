@@ -44,18 +44,15 @@ def replaceTextLemma(textString,lemmaDict):
         textString = re.sub(rf' {key} ', f' {value} ', textString)
     return textString
 
-def replaceBible(text,bibledict):
-    for key,value in zip(list(bibledict.keys()), list(bibledict.values())):
-        variations = key.split(' ')
-        for v in variations: 
-            text = re.sub(rf'\b{v}\b| {v} ', f' {value} ', text)
-    return text
-
-def replaceNumBook(text,numBook):
-    for key,value in zip(list(numBook.keys()), list(numBook.values())):
-        text = re.sub(rf'\b{key}\b| {key} ', f' {value} ', text)
-    return text
-
+def findTextTCP(id):
+    if re.match('B1|B4',id[0:2]):
+        path = f'{TCP}/P2{id[0:2]}/{id}.P4.xml'
+    else: 
+        if f'{id}.P4.xml' in os.listdir(f'{TCP}/P1{id[0:2]}'):
+            path = f'{TCP}/P1{id[0:2]}/{id}.P4.xml'
+        elif f'{id}.P4.xml' in os.listdir(f'{TCP}/P2{id[0:2]}'): 
+            path = f'{TCP}/P2{id[0:2]}/{id}.P4.xml'
+    return path 
 
 EP = '/Users/amycweng/Digital Humanities/eebotcp/texts'
 TCP = '/Users/amycweng/Digital Humanities/TCP'
@@ -131,3 +128,66 @@ def convert(tcpIDs,outputfolder):
             file.write(bodytext) 
         count += 1 
         if not count % 10: print(f'processed {count}')
+
+''' 
+Separately extract each act of a play as a TXT file. 
+
+NOTE: For EP XML files that contain only one play  
+'''
+def writeToFile(bodytext,folder,tcpID,head):
+    with open(f'{folder}/{tcpID}_{head}.txt', 'w+') as file:
+        bodytext = replaceTextLemma(bodytext,lemmaDict)
+        cleaned = cleanText(bodytext)
+        cleaned = cleaned.replace('\n',' ')
+        file.write(f'{cleaned}') 
+
+def extractActs(tcpID,folder):
+    getActs = True
+    path,source = findText(tcpID,getActs)
+    with open(path,'r') as file: 
+        data = file.read()
+    targetTag = SoupStrainer("div",attrs={"type":"act"})
+    soup = BeautifulSoup(data,parse_only=targetTag,features='html.parser')
+    acts = soup.find_all('div',attrs={"type":"act"})
+    for idx,act in enumerate(acts): 
+        head = f'Act {idx+1}' 
+        bodytext = textEP(act).lower()
+        writeToFile(folder,tcpID,head)
+
+''' 
+Extract a particular English section from a TCP document with many languages and/or works 
+
+NOTE: Once you have found your target section under a tag in a TCP xml file, 
+move the </HEAD> concluding tag to the bottom of the section. 
+That way, only the target section has the associated text, not just the heading title 
+
+Outputs the body text of a particular section to a TXT file. 
+Names each TXT file by the {tcpID}_{section heading}
+'''
+def getParticularEnglishSectionTCP(head, tcpID, tcpPath, folder):
+    '''
+    Arguments: (1) head: 
+                    The exact name of the section you want to extract, e.g., 'The Conclusion of the Parlement of Pratlers.'
+               (2) tcpID: 
+                    The TCP ID of the text 
+               (3) tcpPath: 
+                    File path
+               (4) folder: 
+                    Folder for the output files 
+    '''
+    with open(tcpPath,'r') as file: 
+        data = file.read()
+    targetTag = SoupStrainer("div3",attrs={"lang": "eng"})
+    soup = BeautifulSoup(data,parse_only=targetTag,features='html.parser')
+    bodytext = partialTextTCP(soup,head).lower()
+    writeToFile(bodytext,folder,tcpID,head)
+
+def partialTextTCP(soup,target):
+    text_list = []
+    headings = soup.find_all('head')
+    for tag in headings:
+        children = tag.children
+        if target in tag.text: 
+            for child in children:
+                text_list.append(child.text.strip())
+    return ' '.join(text_list[1:])
