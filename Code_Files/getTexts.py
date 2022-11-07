@@ -36,12 +36,14 @@ def getLemmaDict(path):
     '''
     if 'None' in path: 
         return None
+    if 'Default' in path or 'default' in path:
+        path = 'Standardization_Files/lemmas.txt'
     with open(path) as f:
         data = f.read()
     lemmaDict = ast.literal_eval(data)
     return lemmaDict
 
-lemmaDict = getLemmaDict(input(f'Enter the path to your lemmatization dictionary or write None'))
+lemmaDict = getLemmaDict(input(f'Enter the path to your own standardizer dictionary, write Default if you would like to use ours, or write None: '))
 
 def replaceTextLemma(textString,lemmaDict):
     if lemmaDict is not None: 
