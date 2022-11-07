@@ -1,7 +1,9 @@
 from bs4 import BeautifulSoup,SoupStrainer
 import re,ast,os
+import pandas as pd
 
 def text(soup):
+    '''Extracting body texts from TCP'''
     text_list = []
     for part in soup.find_all('p'):  
         text = str(part)
@@ -17,15 +19,8 @@ def text(soup):
         text_list.append(text)   
     return ' '.join(text_list)
 
-def notes(soup):
-    notes_list = []
-    for note in soup.find_all('note'): 
-        n = note.text
-        n = re.sub(r'[^a-zA-Z0-9 ]','',n)
-        notes_list.append(n)
-    return '\n'.join(notes_list)
-
-def cleanText(text):    
+def cleanText(text):  
+    '''Text cleaning function to remove all non-alphabetical characters from the text'''  
     dashes = text.replace('-',' ')
     tokens = [x for x in re.sub(r'[^a-zA-Z\s\u25CF]','', dashes).split(' ') if x != '']
     tokens = ' '.join(tokens)
@@ -33,15 +28,25 @@ def cleanText(text):
     return tokens
     
 def getLemmaDict(path):
+    '''
+    Args: 
+        path: File path to your lemmatization & standardization dictionary in TXT format 
+                The TXT file should only contain a dictionary like this: {'fravncis':'francis','frauncis':'francis'} 
+                See https://github.com/amycweng/ECBC-Data-2022/blob/main/2b)%20stageTwo/lemmas.txt as an example. 
+    '''
+    if 'None' in path: 
+        return None
     with open(path) as f:
         data = f.read()
     lemmaDict = ast.literal_eval(data)
     return lemmaDict
-lemmaDict = getLemmaDict('/Users/amycweng/Digital Humanities/ECBC-Data-2022/2b) stageTwo/lemmas.txt')
+
+lemmaDict = getLemmaDict(input(f'Enter the path to your lemmatization dictionary or write None'))
 
 def replaceTextLemma(textString,lemmaDict):
-    for key,value in zip(list(lemmaDict.keys()), list(lemmaDict.values())):
-        textString = re.sub(rf' {key} ', f' {value} ', textString)
+    if lemmaDict is not None: 
+        for key,value in zip(list(lemmaDict.keys()), list(lemmaDict.values())):
+            textString = re.sub(rf' {key} ', f' {value} ', textString)
     return textString
 
 def findTextTCP(id):
@@ -58,6 +63,11 @@ EP = '/Users/amycweng/Digital Humanities/eebotcp/texts'
 TCP = '/Users/amycweng/Digital Humanities/TCP'
 underscores = []
 def findText(id,getActs):
+    '''
+    Args: 
+        id: TCP ID for a single text 
+        getActs: Boolean value (True or False) for whether you want to extract each act of a play individually 
+    '''
     foundEP = False
     for file in os.listdir(f'{EP}/{id[0:3]}'):
         if id in file: 
@@ -107,7 +117,11 @@ def textEP(soup):
     return ' '.join(text_list)
 
 def convert(tcpIDs,outputfolder):
-    folder = f'/Users/amycweng/Digital Humanities/{outputfolder}'
+    '''
+    Args: 
+        tcpIDs: List of TCP IDs 
+        outputfolder: path to the folder where you want your output TXT files to be located 
+    '''
     count = 0
     for id in tcpIDs:
         path,source = findText(id,False)
@@ -122,12 +136,23 @@ def convert(tcpIDs,outputfolder):
         if source == 'EP': 
             bodytext = textEP(soup).lower()
             bodytext = re.sub('●','^',bodytext)
-        with open(f'{folder}/{id}.txt', 'w+') as file:
+        with open(f'{outputfolder}/{id}.txt', 'w+') as file:
             cleaned = cleanText(bodytext)
             bodytext = replaceTextLemma(cleaned,lemmaDict)
             file.write(bodytext) 
         count += 1 
         if not count % 10: print(f'processed {count}')
+    print(f'Processed {count} in total')
+
+def getIDs(csv_file): 
+    '''
+    Args: 
+        csv_file: CSV file of relevant metadata (e.g., all the TCP info for a particular author)
+                    See https://github.com/amycweng/Early-Modern-London/tree/main/Relevant_Metadata for examples 
+    '''
+    csv_data = pd.read_csv(csv_file)
+    return [ _ for _ in csv_data['id']]
+
 
 ''' 
 Separately extract each act of a play as a TXT file. 
@@ -141,18 +166,63 @@ def writeToFile(bodytext,folder,tcpID,head):
         cleaned = cleaned.replace('\n',' ')
         file.write(f'{cleaned}') 
 
-def extractActs(tcpID,folder):
+def extractActs(tcpIDs,outputfolder):
+    '''
+    Args: 
+        tcpIDs: list of TCP IDs for XMLs of plays that you want to extract each individual act for 
+        outputfolder: path for the folder where you want your output TXT files to be located
+    '''
     getActs = True
-    path,source = findText(tcpID,getActs)
-    with open(path,'r') as file: 
+    for tcpID in tcpIDs: 
+        path = findText(tcpID,getActs)[0]
+        with open(path,'r') as file: 
+            data = file.read()
+        targetTag = SoupStrainer("div",attrs={"type":"act"})
+        soup = BeautifulSoup(data,parse_only=targetTag,features='html.parser')
+        acts = soup.find_all('div',attrs={"type":"act"})
+        for idx,act in enumerate(acts): 
+            head = f'Act {idx+1}' 
+            bodytext = textEP(act).lower()
+            writeToFile(bodytext,outputfolder,tcpID,head)
+
+''' 
+Extract a particular play from an xml version of an anthology, 
+    e.g., A53060 (Playes written by the thrice noble, illustrious and excellent princess, the Lady Marchioness of Newcastle.)
+EP breaks most anthologies into indiviudal XML files for each work, but there are exceptions. 
+
+IMPORTANT: The trick is to manually identify the section of the XML
+and then add the <play>... </play> tag to the beginning and end of the section. 
+--- you must modify the xml file for this to work 
+'''
+def getPlayFromAnthology(outputfolder,tcpID,title,source,filepath,getActs): 
+    '''
+    Args: 
+        outputfolder: path for the folder where you want your output TXT files to be located
+        tcpID: the TCP ID of the EP anthology you want to extract a play from 
+        title: the exact title of the section you want to extract 
+        source: EP or TCP 
+        filepath: the path to the modified EP XML file 
+        getActs: Boolean True/False value whether you want to extract each act of the play into individual TXT files
+    '''
+    with open(filepath,'r') as file: 
         data = file.read()
-    targetTag = SoupStrainer("div",attrs={"type":"act"})
+    targetTag = SoupStrainer("play")
     soup = BeautifulSoup(data,parse_only=targetTag,features='html.parser')
-    acts = soup.find_all('div',attrs={"type":"act"})
-    for idx,act in enumerate(acts): 
-        head = f'Act {idx+1}' 
-        bodytext = textEP(act).lower()
-        writeToFile(folder,tcpID,head)
+    if getActs: 
+        acts = soup.find_all('div',attrs={"type":"act"})
+        for idx,act in enumerate(acts): 
+            head = f'{title}_Act {idx+1}' 
+            if source == 'EP': 
+                bodytext = textEP(act).lower()
+            else: 
+                bodytext = text(act).lower()
+            writeToFile(bodytext,outputfolder,tcpID,head)
+    else: 
+        if source == 'EP': 
+                bodytext = textEP(act).lower()
+        else: 
+            bodytext = text(act).lower()
+        writeToFile(bodytext,outputfolder,tcpID,title)
 
 ''' 
 Extract a particular English section from a TCP document with many languages and/or works 
@@ -166,14 +236,11 @@ Names each TXT file by the {tcpID}_{section heading}
 '''
 def getParticularEnglishSectionTCP(head, tcpID, tcpPath, folder):
     '''
-    Arguments: (1) head: 
-                    The exact name of the section you want to extract, e.g., 'The Conclusion of the Parlement of Pratlers.'
-               (2) tcpID: 
-                    The TCP ID of the text 
-               (3) tcpPath: 
-                    File path
-               (4) folder: 
-                    Folder for the output files 
+    Args: 
+        head: The exact name of the section you want to extract, e.g., 'The Conclusion of the Parlement of Pratlers.'
+        tcpID: The TCP ID of the text 
+        tcpPath: File path
+        folder: Folder for the output files 
     '''
     with open(tcpPath,'r') as file: 
         data = file.read()
