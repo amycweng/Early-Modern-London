@@ -10,4 +10,7 @@ convert_xml <- function(filepaths) {
   }
 }
 
+#output <- getMarginalia(paste0(dirname(getwd()),'/Sample_XML/A01529.P4.xml'))
 
+#print(output[1])
+#print(output[2])
