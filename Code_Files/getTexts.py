@@ -1,6 +1,10 @@
 from bs4 import BeautifulSoup,SoupStrainer
 import re,ast,os
 import pandas as pd
+'''
+This is an adaptation of the text extraction code in the clean.ipynb file from the ECBC Data+ Team's github: 
+https://github.com/amycweng/ECBC-Data-2022/blob/main/2b)%20stageTwo/clean.ipynb 
+'''
 
 def text(soup):
     '''Extracting body texts from TCP'''
