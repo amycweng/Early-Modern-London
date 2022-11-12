@@ -26,7 +26,7 @@ def text(soup):
 def cleanText(text):  
     '''Text cleaning function to remove all non-alphabetical characters from the text'''  
     dashes = text.replace('-',' ')
-    tokens = [x for x in re.sub(r'[^a-zA-Z\s\u25CF]','', dashes).split(' ') if x != '']
+    tokens = [x for x in re.sub(r'[^a-zA-Z\s\u25CF]','', dashes).split(' ') if x != '' and len(x) > 1]
     tokens = ' '.join(tokens)
     tokens = tokens.replace('  ',' ')
     return tokens
