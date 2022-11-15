@@ -1,6 +1,10 @@
 from bs4 import BeautifulSoup,SoupStrainer
 import re,ast,os
 import pandas as pd
+'''
+This is an adaptation of the text extraction code in the clean.ipynb file from the ECBC Data+ Team's github: 
+https://github.com/amycweng/ECBC-Data-2022/blob/main/2b)%20stageTwo/clean.ipynb 
+'''
 
 def text(soup):
     '''Extracting body texts from TCP'''
@@ -22,7 +26,7 @@ def text(soup):
 def cleanText(text):  
     '''Text cleaning function to remove all non-alphabetical characters from the text'''  
     dashes = text.replace('-',' ')
-    tokens = [x for x in re.sub(r'[^a-zA-Z\s\u25CF]','', dashes).split(' ') if x != '']
+    tokens = [x for x in re.sub(r'[^a-zA-Z\s\u25CF]','', dashes).split(' ') if x != '' and len(x) > 1]
     tokens = ' '.join(tokens)
     tokens = tokens.replace('  ',' ')
     return tokens
@@ -36,12 +40,14 @@ def getLemmaDict(path):
     '''
     if 'None' in path: 
         return None
+    if 'Default' in path or 'default' in path:
+        path = 'Standardization_Files/lemmas.txt'
     with open(path) as f:
         data = f.read()
     lemmaDict = ast.literal_eval(data)
     return lemmaDict
 
-lemmaDict = getLemmaDict(input(f'Enter the path to your lemmatization dictionary or write None'))
+lemmaDict = getLemmaDict(input(f'Enter the path to your own standardizer dictionary, write Default if you would like to use ours, or write None: '))
 
 def replaceTextLemma(textString,lemmaDict):
     if lemmaDict is not None: 
