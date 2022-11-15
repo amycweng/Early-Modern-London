@@ -2,6 +2,7 @@ library(tidyverse)
 library(stringr)
 library(visNetwork)
 library(reticulate)
+source_python(paste0(dirname(getwd()),'/Code_Files/stationerStandardization.ipynb'))
 
 #TO-DO: ADD COMMENTS/SECTIONS
 
