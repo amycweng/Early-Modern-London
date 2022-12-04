@@ -101,70 +101,129 @@ def replaceNumBook(text):
 
 bibleBooks = [x for x in bible.values()]
 bibleBooks.extend([x for x in numBook.values()])
+original_titles = {v.capitalize():k for k,v in numBook.items()}
 
+
+def verify(text): 
+    for book in bibleBooks:
+        if re.search(rf'{book} \d+', text): 
+            return True
+        
 def getMarginalia(filepath):
     with open(filepath,'r') as file: 
         data = file.read()
     noteTag = SoupStrainer("note")
     soup = BeautifulSoup(data,parse_only=noteTag,features='html.parser')
-    notes_list = []
-    special_cases = []
+    possible_citations = []
+    possible_missing = []
     for note in soup.find_all('note'): 
         n = note.text.lower()
-        n = re.sub(r'\s+',' ',n)    
-        n = re.sub(r'(?<=\d\.)(?!$)',r' ',n)
+        n = re.sub(r'(\.)',r' ',n)
+        n = re.sub(r'\s+',' ',n)
         n = replaceBible(n)
         n = replaceNumBook(n)
-        if re.search(r'\b[A-Za-z]+. \d+\. \d+\.|\b[A-Za-z]+. \d+ \d+\.|\b[A-Za-z]+. \d+\. \d+|\b[A-Za-z]+. \d+ \d+',n):
-            notes = re.findall(r'\b[A-Za-z]+. \d+\. \d+\.|\b[A-Za-z]+. \b \d+ \d+\.|\b[A-Za-z]+. \d+\. \d+|\b[A-Za-z]+. \d+ \d+',n)
-            for n in notes:
-                if re.search('|'.join(bibleBooks),n): 
-                    notes_list.append(n.replace('.',''))
-                else: 
-                    special_cases.append(n.replace('.',''))
+        if verify(n): 
+            possible_citations.append(n)
+        else: 
+            possible_missing.append(n)
+            
+    margins = findCitations(possible_citations)
+    special_cases = findMissing(possible_missing)
+    return margins,special_cases
 
-        elif re.search(r'\b[A-Za-z]+. \d+.',n):
-            regex_list = [
-            '\w+. \d+\. \d+\, \d+\, \d+.','\w+. \d+\. \d+\, \d+.', 
-            '\w+. \d+\. \d+\, \d+\, \d+\, \d+.'
-            ]
-            multiple = False
-            for regex in regex_list:
-                if re.search(rf'{regex}',n): 
-                    found = re.findall(rf'{regex}',n)
-                    for f in found:
-                        multiple = True
-                        f = f.split(' ')
-                        for num in f[2:]:
-                            phrase = f'{f[0]} {f[1]} {num}'
-                            if re.search('|'.join(bibleBooks),phrase):
-                                notes_list.append(re.sub('\.|\,','',phrase))
-                            else: 
-                                special_cases.append(re.sub('\.|\,','',phrase))
-            if not multiple: 
-                found = re.findall(r'\b[A-Za-z]+. \d+.',n)
-                for f in found: 
-                    if re.search('|'.join(bibleBooks),f):
-                        notes_list.append(re.sub(r'[^a-zA-Z0-9\s\u25CF]','',f))
-                    else: 
-                        special_cases.append(re.sub(r'[^a-zA-Z0-9\s\u25CF]','',f))
-        
-    return notes_list,special_cases
+def comma(book, passage): 
+    phrases = []
+    edge_case = re.search(', \d+ \d+',passage)
+    if edge_case: 
+        phrases.append(simple(book, edge_case.group()))
+        passage = re.sub(edge_case.group(), '',passage)
+    nums = re.findall(f'(\d+)',passage)
+    for num in nums[1:]: 
+        phrases.append(f'{book} {nums[0]}:{num}')
+    return phrases 
+
+def simple(book, passage): 
+    passage = re.findall('(\d+) (\d+)',passage)[0]
+    return f'{book} {passage[0]}:{passage[1]}'
+
+def findCitations(notes_list): 
+    citations, outliers = [], []
+
+    for n in notes_list: 
+        phrases, pesky = [], []
+        n = re.sub(r'(\.)',r' ',n)
+        n = re.sub(r'[^A-Za-z0-9\,\& ]','',n)
+        n = re.sub(r'\s+',' ',n)
+        n = replaceBible(n)
+        n = replaceNumBook(n)
+        for book in bibleBooks:
+            phrase = re.search(rf'\b{book}\b(.*?)(?=[a-z])|\b{book}\b(.*?)$',n)
+            if phrase is None: continue
+            phrase = phrase.group().strip()
+            if not re.search(r'[a-z]+ \d+ \d+',phrase): continue
+            
+            if re.search(r'^[a-z]+ \d+ \d+$',phrase):  
+                phrases.append(simple(book, phrase))
+            elif re.search(r'^[a-z]+ \d+ \d+ \d+$',phrase):  
+                phrase = phrase.split(' ')
+                phrases.append(f'{phrase[0]} {phrase[1]}:{phrase[2]}')
+                phrases.append(f'{phrase[0]} {phrase[1]}:{phrase[3]}')
+            elif re.search('&',phrase): 
+                passages = phrase.split('&')
+                for passage in passages: 
+                    passage = passage.strip()
+                    if re.search(',',passage):
+                        phrases.extend(comma(book, passage))
+                    else:
+                        phrases.append(simple(book, passage))
+            elif re.search(', ',phrase): 
+                phrases.extend(comma(book, phrase))
+            else: 
+                pesky.append(phrase)
+
+            for phrase in phrases:
+                citations.append(phrase.capitalize())
+            for p in pesky: 
+                outliers.append(p.capitalize())
+
+    return citations, outliers
+
+def findMissing(missing_list): 
+    special_cases = []
+    for m in missing_list: 
+        if re.search('\w+ \d+ \d+',m): 
+            missing = re.findall('\w+ \d+ \d+',m)
+            for phrase in missing: 
+                special_cases.append(phrase)
+    return sorted(special_cases)
+
+def proper_title(citations_list, pesky_list): 
+    for idx, passage in enumerate(citations_list): 
+        book = passage.split(' ')[0]
+        if book in original_titles.keys():
+            orig_title = original_titles[book].split(' ')
+            orig_title[1] = orig_title[1].capitalize()
+            passage = re.sub(book, ' '.join(orig_title), passage)
+            citations_list[idx] = passage
+
+    for idx, passage in pesky_list: 
+        book = passage.split(' ')[0]
+        if book in original_titles.keys():
+            orig_title = original_titles[book].split(' ')
+            orig_title[1] = orig_title[1].capitalize()
+            passage = re.sub(book, ' '.join(orig_title), passage)
+            pesky_list[idx] = passage
+
+    return citations_list, pesky_list 
+
+import warnings
+warnings.simplefilter("ignore", UserWarning)
 
 if __name__ == '__main__': 
-    # sample filepath: /Users/amycweng/Digital Humanities/TCP/P1A0/A01523.P4.xml
+    # sample filepath: /Users/amycweng/Digital Humanities/TCP/P1A6/A68088.P4.xml
     filepath = input('Enter the path of a TCP XML file: ')
-    margin, specials = getMarginalia(filepath)
-    print(margin)
-    missing = []
-    for entry in specials: 
-        name = re.search(r'\b[A-Za-z]+\b',entry)
-        if name is not None: 
-            name = name.group()
-            if len(name) < 2: continue
-            if name not in bibleBooks and name not in missing:
-                missing.append(name)
-    print(f'Here are the potential Biblical citations that the current standardization dictionary missed: {missing}. Please update the standardizer dictionary accordingly.')
-
-# test1 = 'rom. 12. 12. rom 12.      12. 2 cor 23. 23. 1 tim. 11.11.'
-# test2 = '1 cor. 12. 4, 6, 11. 2 cor. 12, 27. 30. eccle 12. 12, 14, 15, 16. 1 sam. 7. 15, 16. iohn 11. , 36. zech. 5. 3, 4.'
+    margin, possibly_missing = getMarginalia(filepath)
+    margin = proper_title(margin[0], margin[1])
+    print(f'Here are the biblical passages cited in the margins of this book and formatted as singular lines: {margin[0]}\n')
+    print(f'Here are the citations that cannot be formatted at the moment: {margin[1]}\n')
+    print(f'Here are the potential Biblical passages that the current standardization dictionary missed: {possibly_missing}. Please update the standardizer dictionary accordingly.')
