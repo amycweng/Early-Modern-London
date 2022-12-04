@@ -64,37 +64,37 @@ bible = {
 }
 
 numBook = {
-    '1 samuel':'1samuel',
-    '2 samuel':'2samuel',
-    '1 kings':'1kings',
-    '2 kings':'2kings',
-    '1 chronicles':'1chronicles',
-    '2 chronicles':'2chronicles',
-    '1 corinthians':'1corinthians',
-    '2 corinthians':'2corinthians',
-    '1 thessalonians':'1thessalonians',
-    '2 thessalonians':'2thessalonians',
-    '1 timothy':'1timothy',
-    '2 timothy':'2timothy',
-    '1 peter':'1peter',
-    '2 peter':'2peter',
-    '1 john':'1john',
-    '2 john':'2john',
-    '3 john':'3john'
+    '1 samuel':'onesamuel',
+    '2 samuel':'twosamuel',
+    '1 kings':'onekings',
+    '2 kings':'twokings',
+    '1 chronicles':'onechronicles',
+    '2 chronicles':'twochronicles',
+    '1 corinthians':'onecorinthians',
+    '2 corinthians':'twocorinthians',
+    '1 thessalonians':'onethessalonians',
+    '2 thessalonians':'twothessalonians',
+    '1 timothy':'onetimothy',
+    '2 timothy':'twotimothy',
+    '1 peter':'onepeter',
+    '2 peter':'twopeter',
+    '1 john':'onejohn',
+    '2 john':'twojohn',
+    '3 john':'threejohn'
 }
 
 import re 
 from bs4 import BeautifulSoup, SoupStrainer
 
 def replaceBible(text):
-    for key,value in zip(list(bible.keys()), list(bible.values())):
+    for key,value in zip(bible.keys(), bible.values()):
         variations = key.split(' ')
         for v in variations: 
             text = re.sub(rf'\b{v}\b|\b{v}\.\b|^{v}\.\b|^{v}\b', value, text)
     return text
 
 def replaceNumBook(text):
-    for key,value in zip(list(numBook.keys()), list(numBook.values())):
+    for key,value in zip(numBook.keys(), numBook.values()):
         text = re.sub(rf'\b{key}\b', value, text)
         text = re.sub(r'\s+',' ',text)
     return text
