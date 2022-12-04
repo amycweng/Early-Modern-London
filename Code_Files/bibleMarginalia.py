@@ -218,12 +218,12 @@ def proper_title(citations_list, pesky_list):
 
 import warnings
 warnings.simplefilter("ignore", UserWarning)
-
+from collections import Counter
 if __name__ == '__main__': 
     # sample filepath: /Users/amycweng/Digital Humanities/TCP/P1A6/A68088.P4.xml
     filepath = input('Enter the path of a TCP XML file: ')
     margin, possibly_missing = getMarginalia(filepath)
     margin = proper_title(margin[0], margin[1])
-    print(f'Here are the biblical passages cited in the margins of this book and formatted as singular lines: {margin[0]}\n')
+    print(f'Here are the biblical passages cited in the margins of this book and formatted as singular lines: {Counter(margin[0])}\n')
     print(f'Here are the citations that cannot be formatted at the moment: {margin[1]}\n')
-    print(f'Here are the potential Biblical passages that the current standardization dictionary missed: {possibly_missing}. Please update the standardizer dictionary accordingly.')
+    print(f'Here are the potential passages that the current standardization dictionary missed: {possibly_missing}. Please update the standardizer dictionary accordingly if there are any relevant abbreviations.')
