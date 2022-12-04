@@ -13,11 +13,13 @@ require(tidyverse)
 require('shinycssloaders')
 require(reticulate)
 require(listviewer)
+require(DT)
 source("make_network.R")
 #source('run_python.R')
 use_condaenv('r-reticulate')
 source_python('bibleMarginaliaNoMain.py')
-
+source_python(paste0(dirname(getwd()),'/Code_Files/stationerStandardization.ipynb'))
+source_python(paste0(dirname(getwd()),'/Code_Files/authors.py'))
 # Define UI for application that draws a histogram
 ui <- 
   fluidPage(
@@ -35,6 +37,15 @@ tags$style(HTML("
     body"))),
     # Sidebar with a slider input for number of bins 
     tabsetPanel(
+      tabPanel("Process TCP XMLs!",
+               sidebarLayout(
+                 sidebarPanel(
+                   fileInput('xlm_dir', "Upload XML Directory",
+                             buttonLabel = "Select XML Directory", placeholder = "Upload DIR"),
+                   textInput('author_id', "Select your author", placeholder = "Input Author")
+               ),
+               mainPanel()
+               )),
       tabPanel(
         "Network Visualiser",
     sidebarLayout(
@@ -59,7 +70,7 @@ tags$style(HTML("
                   buttonLabel = "Select File", placeholder = "Upload File"),
     ),
     mainPanel(
-      uiOutput('xml_table')
+      DTOutput('xml_table')
     )
   )
 )
@@ -90,26 +101,36 @@ xml_data <-
     getMarginalia(input$raw_xml$datapath)
   })
 
-reshape_list <- function(list1) {
-  df_shaped = c()
-  count = 0
-  for (x in integer(length(list1)/5)) {
-    if ((count + 1)*5 <= length(list1)) {
-      df_shaped <- append(df_shaped,c(list1[count * 5 + 1:(count + 1)*5]))
-      print(df_shaped)}
-    else {
-      temp <- c(list1[count * 5 + 1:(count * 5 + 1) + (5 - (((count + 1)*5) - length(list1)))])
-      temp <- append(temp,rep(NA,(((count + 1)*5) - length(list1))))
-      df_shaped <- append(df_shaped,temp)
-    }
-    count <- count + 1
-  }
-  return(df_shaped)
-}
+
+xml_dir_processed <- 
+  reactive({
+    #req(input$xlm_dir)
+    #req(input$author_id)
+    print(input$xlm_dir$datapath)
+    getAuthorTCPMetadata(input$xlm_dir$datapath,input$author_id,paste0(getwd(),"/csv_outputs"))
+  })
+
+# reshape_list <- function(list1) {
+#   df_shaped = c()
+#   count = 0
+#   for (x in integer(length(list1)/5)) {
+#     if ((count + 1)*5 <= length(list1)) {
+#       df_shaped <- append(df_shaped,c(list1[count * 5 + 1:(count + 1)*5]))
+#       print(df_shaped)}
+#     else {
+#       temp <- c(list1[count * 5 + 1:(count * 5 + 1) + (5 - (((count + 1)*5) - length(list1)))])
+#       temp <- append(temp,rep(NA,(((count + 1)*5) - length(list1))))
+#       df_shaped <- append(df_shaped,temp)
+#     }
+#     count <- count + 1
+#   }
+#   return(df_shaped)
+# }
 
 output$xml_table <- 
-  renderTable({
-    xml_data()[1]
+  renderDT({
+    data.frame(unlist(strsplit(xml_data()[[1]],"''"))) %>% 
+      rename("Biblical Marginalia" = 1)
   })
 }
 
