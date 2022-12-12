@@ -65,8 +65,12 @@ def findTextTCP(id):
             path = f'{TCP}/P2{id[0:2]}/{id}.P4.xml'
     return path 
 
-EP = '/Users/amycweng/Digital Humanities/eebotcp/texts'
-TCP = '/Users/amycweng/Digital Humanities/TCP'
+# EP = '/Users/amycweng/Digital Humanities/eebotcp/texts'
+# TCP = '/Users/amycweng/Digital Humanities/TCP'
+EP = input('Enter the path to a folder containing EP texts or write None: ')
+# Each subfolder must be named like this: "P1A0" for Phase 1 A0 texts 
+TCP = input('Enter the path to a folder containing all TCP texts or write None: ')
+
 underscores = []
 def findText(id,getActs):
     '''
@@ -128,6 +132,10 @@ def convert(tcpIDs,outputfolder):
         tcpIDs: List of TCP IDs 
         outputfolder: path to the folder where you want your output TXT files to be located 
     '''
+    if EP is None: 
+        return "No folder of EP texts has been provided."
+    if TCP is None: 
+        return 'No folder of TCP texts has been provided.'
     count = 0
     for id in tcpIDs:
         path,source = findText(id,False)
