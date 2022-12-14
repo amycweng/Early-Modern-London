@@ -1,0 +1,71 @@
+﻿id,audience,location_name,help_poor,num_charity_citations
+A68088,funeral,London,TRUE,1
+A01538,funeral,London,FALSE,0
+A01531,funeral,London,TRUE,24
+A01528,funeral,London,FALSE,7
+A01523,funeral,All Hallows Bread St,FALSE,2
+A01547,funeral,Church of St Mary-at-Lambeth,TRUE,3
+A19590,company,Temple,TRUE,1
+A02585,hospital,St Mary's Hospital,TRUE,0
+A01970,company,St Ann Blackfriars,FALSE,0
+A01539,local,St Ann Blackfriars,FALSE,6
+A41670,local,St Ann Blackfriars,TRUE,0
+A01979,local,St Ann Blackfriars,TRUE,14
+A02537,local,Gray's Inn,FALSE,0
+A55750,monarch,Hinchingbrooke House,TRUE,0
+A85487,house of commons,House of Parliament,TRUE,9
+A85486,house of lords,House of Parliament,FALSE,0
+A02566,house of lords,House of Parliament,FALSE,0
+A02565,house of lords,House of Parliament,FALSE,0
+A09963,local,Lincoln's Inn,FALSE,0
+A09981,local,Lincoln's Inn,FALSE,0
+A09970,local,Lincoln's Inn or Cambridge,TRUE,0
+A09971,local,Lincoln's Inn or Cambridge,FALSE,2
+A55748,local,Lincoln's Inn or Cambridge,FALSE,0
+A10015,local,Lincoln's Inn or Cambridge,FALSE,0
+A55754,local,Lincoln's Inn or Cambridge,TRUE,0
+A09965,local,Lincoln's Inn or Cambridge,FALSE,2
+A10030,local,Lincoln's Inn or Cambridge,FALSE,0
+A10024,local,Lincoln's Inn or Cambridge,FALSE,2
+A09999,local,Lincoln's Inn,FALSE,0
+A09950,local,Lincoln's Inn,TRUE,1
+A09990,local,Lincoln's Inn,TRUE,0
+A10010,local,Lincoln's Inn,TRUE,0
+A09958,local,"Holy Trinity Church, Cambridge",FALSE,0
+A09977,local,"Holy Trinity Church, Cambridge",TRUE,1
+A86974,monarch,Palace of Whitehall,FALSE,0
+A02519,monarch,Palace of Whitehall,FALSE,0
+A02589,monarch,Palace of Whitehall,FALSE,0
+A09967,monarch,Palace of Whitehall,FALSE,0
+A10018,monarch,Palace of Whitehall,FALSE,0
+A10027,monarch,Palace of Whitehall,FALSE,0
+A02551,monarch,Palace of Whitehall,TRUE,0
+A14996,local,St Paul's Cross,TRUE,4
+A19588,local,St Paul's Cross,TRUE,1
+A02547,local,St Paul's Cross,FALSE,0
+A19589,local,St Paul's Cross,TRUE,1
+A02571,local,St Paul's Cross,TRUE,1
+A72143,local,"St Mary's Church, Rotherhithe",TRUE,29
+A01553,wedding,"St Mary's Church, Rotherhithe",TRUE,0
+A01534,wedding,"St Mary's Church, Rotherhithe",TRUE,1
+A01524,historical,"St Mary's Church, Rotherhithe",FALSE,3
+A01554,local,"St Mary's Church, Rotherhithe",TRUE,1
+A01529,local,"St Mary's Church, Rotherhithe",TRUE,10
+A01533,local,Sergeant's Inn,TRUE,8
+A01548,local,Sergeant's Inn,TRUE,17
+A70130,historical,St. Paul's Church,FALSE,0
+A01980,historical,Stepney Church,TRUE,0
+A85485,house of lords,Westminster Abbey,TRUE,1
+A01530,school,Tonbridge Free School,TRUE,2
+B13878,monarch,Theobalds Palace,FALSE,0
+A02591,monarch,Theobalds Palace,FALSE,0
+A02517,monarch,Theobalds Palace,FALSE,0
+A15010,local,"St. Mary's Church, Banbury",TRUE,0
+A68877,local,"St. Mary's Church, Banbury",TRUE,0
+A15012,local,"St. Mary's Church, Banbury",TRUE,23
+A15003,local,"St. Mary's Church, Banbury",TRUE,0
+A15015,local,"St. Mary's Church, Banbury",TRUE,1
+A14989,wedding,"St. Mary's Church, Banbury",FALSE,0
+A65610,local,"St. Mary's Church, Banbury",TRUE,0
+A45303,westminster assembly,Westminster Abbey,TRUE,0
+A02549,parliament,House of Parliament,TRUE,0
