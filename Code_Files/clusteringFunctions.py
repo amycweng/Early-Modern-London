@@ -5,10 +5,7 @@ Produces a user-specified number of clusters based on term frequency vectorizati
 These clusters are described using the keywords found in their corresponding entries 
 in a metadata CSV file made using metadata.py in Stage I. 
 
-The vectorize and cluster functions are adapted from the EarlyPrint Lab: 
-    https://earlyprint.org/jupyterbook/unsupervised.html
-The topTerms function is adapted from 
-    https://pythonprogramminglanguage.com/kmeans-text-clustering/ 
+
 The elbow and intercluster functions are adapted from Yellowbrick's documentation: 
     https://www.scikit-yb.org/en/latest/index.html
 '''
