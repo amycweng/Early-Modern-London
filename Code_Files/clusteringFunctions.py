@@ -8,6 +8,9 @@ in a metadata CSV file made using metadata.py in Stage I.
 
 The elbow and intercluster functions are adapted from Yellowbrick's documentation: 
     https://www.scikit-yb.org/en/latest/index.html
+    
+PCA visualization code is adapted from this source: 
+    https://www.askpython.com/python/examples/plot-k-means-clusters-python
 '''
 import os
 import numpy as np
