@@ -31,7 +31,7 @@ def intercluster(model,num):
     from yellowbrick.cluster import intercluster_distance
     intercluster_distance(KMeans(num),model, embedding='mds') 
 
-def pca_cluster(df,num, tcpIDs,idToTitle,toPrint):
+def pca_cluster(df,num, tcpIDs):
     pca = PCA(n_components=2)
     pca_results = pca.fit_transform(df) 
     model = KMeans(n_clusters=num) 
