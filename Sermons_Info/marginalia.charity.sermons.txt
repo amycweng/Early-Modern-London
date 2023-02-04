@@ -10,10 +10,10 @@ A10010 --
 A09965 -- Acts 20:35; Mark 10:21
 A70130 -- 
 A09950 -- Galatians 2:10
-A72143 -- Acts 20:35; 1 John 3:17; Isaiah 61:1; Matthew 25:35; Matthew 25:35; Matthew 10:42; Matthew 10:42; Mark 9:41; Matthew 6:2; Matthew 6:20; Romans 2:8; Philippians 2:4; Ephesians 4:28; Ezekiel 16:49; Luke 18:1; Luke 18:1; Matthew 25:42; Matthew 25:43; Proverbs 11:24; Isaiah 61:1; Romans 12:8; Romans 12:8; 2 Corinthians 9:7; Romans 2:8; Matthew 6:1; Acts 10:4; Hebrews 13:16; Matthew 25:35; Isaiah 58:7
+A72143 -- Acts 20:35; 1 John 3:17; Isaiah 61:1; Matthew 25:35; Matthew 10:42; Mark 9:41; Matthew 6:2; Matthew 6:20; Romans 2:8; Philippians 2:4; Ephesians 4:28; Ezekiel 16:49; Luke 18:1; Matthew 25:42; Matthew 25:43; Proverbs 11:24; Isaiah 61:1; Romans 12:8; 2 Corinthians 9:7; Romans 2:8; Matthew 6:1; Acts 10:4; Hebrews 13:16; Matthew 25:35; Isaiah 58:7
 A10024 -- Matthew 6:4; Matthew 6:4
 A14989 -- 
-A01531 -- Job 29:16; Job 31:16; Job 31:20; Galatians 6:10; Ephesians 4:28; Ephesians 4:28; 1 Corinthians 13:3; Matthew 25:35; Matthew 25:36; Matthew 25:42; Matthew 25:43; Galatians 6:10; Galatians 6:10; 1 John 3:17; 1 John 3:18; Acts 10:4; Isaiah 58:7; Acts 10:2; 1 John 3:18; James 2:15; James 2:16; 1 Corinthians 16:2; Hebrews 13:16; Proverbs 19:17
+A01531 -- Job 29:16; Job 31:16; Job 31:20; Galatians 6:10; Ephesians 4:28; 1 Corinthians 13:3; Matthew 25:35; Matthew 25:36; Matthew 25:42; Matthew 25:43; Galatians 6:10; 1 John 3:17; 1 John 3:18; Acts 10:4; Isaiah 58:7; Acts 10:2; 1 John 3:18; James 2:15; James 2:16; 1 Corinthians 16:2; Hebrews 13:16; Proverbs 19:17
 A01530 -- Acts 20:35; 1 John 3:17
 A02591 -- 
 A01547 -- James 1:27; 1 Timothy 6:18; Matthew 10:42
@@ -25,11 +25,11 @@ A02537 --
 A15010 -- 
 A45303 -- 
 A02589 -- 
-A01528 -- Luke 18:1; Luke 18:1; Luke 18:1; Job 31:21; Job 31:22; Job 31:21; Job 31:22
-A01529 -- Isaiah 61:1; Matthew 25:35; Matthew 25:35; Matthew 10:42; Matthew 10:42; Mark 9:41; Matthew 6:2; Matthew 6:20; Philippians 2:4; Romans 2:8
+A01528 -- Luke 18:1; Job 31:21; Job 31:22
+A01529 -- Isaiah 61:1; Matthew 25:35; Matthew 10:42; Mark 9:41; Matthew 6:2; Matthew 6:20; Philippians 2:4; Romans 2:8
 A85486 -- 
 A68877 -- 
-A85487 -- 2 Corinthians 9:6; Job 29:12; Isaiah 58:7; Romans 12:13; Romans 12:13; Hebrews 13:2; Matthew 25:35; Matthew 25:35; Hebrews 13:2
+A85487 -- 2 Corinthians 9:6; Job 29:12; Isaiah 58:7; Romans 12:13; Hebrews 13:2; Matthew 25:35; Hebrews 13:2
 A15003 -- 
 A55748 -- 
 A01523 -- Galatians 6:10; Proverbs 3:28
@@ -48,12 +48,12 @@ A55754 --
 A09977 -- Romans 12:8
 A10030 -- 
 A01538 -- 
-A01539 -- Isaiah 61:1; Romans 12:8; Romans 12:8; 2 Corinthians 9:7; Romans 2:8; Matthew 6:1
+A01539 -- Isaiah 61:1; Romans 12:8; 2 Corinthians 9:7; Romans 2:8; Matthew 6:1
 A86974 -- 
-A15012 -- Proverbs 3:27; Deuteronomy 15:7; Luke 12:33; Proverbs 22:9; Proverbs 11:25; Proverbs 11:25; Proverbs 11:25; Proverbs 11:25; Proverbs 11:25; Hebrews 13:16; Proverbs 11:25; Hebrews 13:16; 2 Corinthians 9:6; Proverbs 21:13; 1 John 3:17; Proverbs 11:24; Proverbs 11:25; Proverbs 19:17; Romans 12:13; Luke 12:33; Acts 2:45; 2 Corinthians 9:7; 2 Corinthians 8:11
+A15012 -- Proverbs 3:27; Deuteronomy 15:7; Luke 12:33; Proverbs 22:9; Proverbs 11:25; Hebrews 13:16; 2 Corinthians 9:6; Proverbs 21:13; 1 John 3:17; Proverbs 11:24; Proverbs 11:25; Proverbs 19:17; Romans 12:13; Luke 12:33; Acts 2:45; 2 Corinthians 9:7; 2 Corinthians 8:11
 A02549 -- 
-A01979 -- James 2:16; Luke 14:12; Matthew 25:41; Matthew 6:2; Isaiah 1:17; Titus 3:14; Galatians 6:10; Luke 4:18; 1 John 3:17; Isaiah 58:7; Luke 18:1; Luke 18:1; Hebrews 13:16; Matthew 25:41
-A01533 -- Isaiah 61:1; Isaiah 58:7; Isaiah 58:7; Job 31:21; Job 31:22; Proverbs 22:2; Proverbs 14:31; Proverbs 17:5
+A01979 -- James 2:16; Luke 14:12; Matthew 25:41; Matthew 6:2; Isaiah 1:17; Titus 3:14; Galatians 6:10; Luke 4:18; 1 John 3:17; Isaiah 58:7; Luke 18:1; Hebrews 13:16; Matthew 25:41
+A01533 -- Isaiah 61:1; Isaiah 58:7; Job 31:21; Job 31:22; Proverbs 22:2; Proverbs 14:31; Proverbs 17:5
 A14996 -- 1 John 3:17; Proverbs 11:26; Deuteronomy 15:7; Proverbs 3:27
 A09970 -- 
 A09971 -- Matthew 19:21; Acts 20:35

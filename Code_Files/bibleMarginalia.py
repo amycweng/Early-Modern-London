@@ -162,7 +162,6 @@ def getMarginalia(filepath):
             possible_citations.append(n)
         # append the cleaned and standardized note to the master list of notes 
         notes.append(n)
-            
     # call another function to actually return a list of actual Biblical citations 
     margins = findCitations(possible_citations)
     # The special cases are the possibly "missing" citations, 
@@ -202,7 +201,7 @@ Helper function to extract citations from a marginal note that does not contain 
 Target format is "<book> <chapter> <line>" 
 '''
 def simple(book, passage): 
-    # the simple case of just having "<book> <chapter> <line>" with no 
+    # the simple case of just having "<book> <chapter> <line>" 
     passage = re.findall('(\d+) (\d+)',passage)[0]
     # return citation 
     return f'{book} {passage[0]}:{passage[1]}'
@@ -265,9 +264,9 @@ def findCitations(notes_list):
     # iterate through every single item of the notes_list
     for n in notes_list: 
         # initialize even more local variables of citations and outliers 
-        phrases, pesky = [], []
         # iterate through every single book of the bible because each note line can have citations from multiple different books 
         for book in bibleBooks:
+            phrases, pesky = [], []
             # search whether the current phrase an instance of this book
             phrase = re.search(rf'\b{book}\b(.*?)(?=[a-z])|\b{book}\b(.*?)$',n)
             # if the current note phrase does not have an instance of this book, continue on to the next book 
@@ -276,6 +275,7 @@ def findCitations(notes_list):
             # so that the phrase only contains the citation for a SINGLE book 
             # i.e., "isaiah 5 5 "
             phrase = phrase.group().strip()
+            n = re.sub(phrase,'',n)
             # if there is no instance of the book followed by at least two decimals, skip to the next book  
             if not re.search(r'[a-z]+ \d+ \d+',phrase): continue
             
@@ -322,7 +322,6 @@ def findCitations(notes_list):
                     phrases.extend(['romans 8:1','romans 8:2', 'romans 8:3', 'romans 5:8', 'romans 5:9'])
                 else: 
                     pesky.append(phrase)
-
             # capitalize the book of each citation and append to the list of citations to return
             for phrase in phrases:
                 citations.append(phrase.capitalize())
