@@ -12,8 +12,8 @@ The elbow and intercluster functions are adapted from Yellowbrick's documentatio
 PCA visualization code is adapted from this source: 
     https://www.askpython.com/python/examples/plot-k-means-clusters-python
 '''
-import os
 import numpy as np
+import pandas as pd
 from collections import defaultdict
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
@@ -49,3 +49,13 @@ def pca_cluster(df,num, tcpIDs):
     plt.show()
 
     return kmeans_groups
+
+def top_terms(tcpIDs,sourceIds,results,vector):
+    top_list = []
+    for tcpID in tcpIDs: 
+        single_text_df = pd.DataFrame(results[[_ for _ in sourceIds].index(tcpID)].T.todense(), index=vector.get_feature_names(), columns=[tcpID])
+        single_text_df = single_text_df.sort_values(tcpID, ascending=False)
+        single_text_df = single_text_df[single_text_df[tcpID] != 0]
+        top = list(single_text_df.head(25).T.columns)
+        top_list.extend(top)
+    return(top_list)
