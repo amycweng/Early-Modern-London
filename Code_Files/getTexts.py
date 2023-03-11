@@ -66,13 +66,15 @@ def findTextTCP(id):
     return path 
 
 # EP = '/Users/amycweng/Digital Humanities/eebotcp/texts'
-# TCP = '/Users/amycweng/Digital Humanities/TCP'
 EP = input('Enter the path to a folder containing EP texts or write None: ')
-# Each subfolder must be named like this: "P1A0" for Phase 1 A0 texts 
+# Each subfolder must be named like this: "P1A0" for Phase 1 A0 texts
+# Let all phase 1 and phase 2 folders be located under the same directory 
+# e.g.,  '.../TCP/P1A0' and '.../TCP/P2A5'
+# TCP = '/Users/amycweng/Digital Humanities/TCP'
 TCP = input('Enter the path to a folder containing all TCP texts or write None: ')
 
 underscores = []
-def findText(id,getActs):
+def findText(id,getActs=False):
     '''
     Args: 
         id: TCP ID for a single text 
