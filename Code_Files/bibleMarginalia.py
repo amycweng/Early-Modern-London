@@ -42,7 +42,7 @@ bible = {
     'jnh jon ion inh ionah jona iona':'jonah',
     'mic mc mica':'micah',
     'na nah':'nahum',
-    'hab hb habb habbak habba habbac':'habakkuk',
+    'hab hb habb habbak habba habbac habac':'habakkuk',
     'zeph zep zp zephan':'zephaniah',
     'hag hg hagg':'haggai',
     'zech zec zc zch zach zachar zac':'zechariah',
@@ -50,7 +50,7 @@ bible = {
     'matt matth mt math mat mattth':'matthew',
     'mrk mar mk mr marc marke':'mark',
     'luk lk luc lc':'luke',
-    'joh jhn ioh ihn iohn':'john',
+    'joh jhn ioh ihn iohn ioan joan':'john',
     'act ac acta':'acts',
     'rom ro rm roman':'romans',
     'cor co cr or corinth corin':'corinthians',
@@ -128,40 +128,48 @@ def getMarginalia(filepath):
     # read the input XML file 
     with open(filepath,'r') as file: 
         data = file.read()
-    # use soupstrainer to only parse the note tags 
-    noteTag = SoupStrainer("note")
-    # create a parsed tree, i.e., soup, of the note tags using the html parser
+    # use soupstrainer to only parse the main text body (excluding dedicatory materials etc)
+    bodyText1 = SoupStrainer("div1",attrs={"type":"text"})
+    bodyText2 = SoupStrainer("div1",attrs={"type":"part"})
+    bodyText3 = SoupStrainer("div1",attrs={"type":"sermon"})
+    bodyText4 = SoupStrainer("div1",attrs={"type":"exegesis"})
+    # create a parsed tree, i.e., soup, of the body text using the html parser
     # (the file is an XML but the HTML parser is sufficient.)
-    soup = BeautifulSoup(data,parse_only=noteTag,features='html.parser')
+    soup1 = BeautifulSoup(data,parse_only=bodyText1,features='html.parser')
+    soup2 = BeautifulSoup(data,parse_only=bodyText2,features='html.parser')
+    soup3 = BeautifulSoup(data,parse_only=bodyText3,features='html.parser')
+    soup4 = BeautifulSoup(data,parse_only=bodyText4,features='html.parser')
+    soups = [soup1, soup2,soup3,soup4]
     # initialize list to keep track of the notes that might have citations
     possible_citations = []
     # keep track of all the cleaned and standardized notes for later processing of special cases 
     notes = []
     # iterate through every note tag of this file 
-    for note in soup.find_all('note'): 
-        # make all letters lowercase
-        n = note.text.lower()
-        # replace all periods with spaces. This is to make sure that all citations are 
-        # in the format of "<book> <chapter> <line>", i.e., "Ecclesiastes 9 4". 
-        # Some citations are originally inconsistently formatted as "<book> <chapter>.<line>" at times 
-        # and "<book> <chapter>. <line>." at other times, so replacing periods with spaces is the first step to standardizing all the citation formats 
-        n = re.sub(r'(\.)',r' ',n)
-        # remove everything that is not an alphabetical character, integer, comma, ampersand or a single space
-        n = re.sub(r'[^a-z0-9\,\&\— ]','',n)
-        # replace all instances of "and" with ampersands 
-        n = re.sub(r'\band\b','&', n)
-        # next, replace all instances of two or more spaces with a single space. Thus, all the citation formats have been standardized. 
-        n = re.sub(r'\s+',' ',n)
-        # now, standardize all abbreviations in the text of this note tag  
-        n = replaceBible(n)
-        # Reformat the numbered books, which ensures that the later regex searches do not produce duplicates for these numbered books. 
-        n = replaceNumBook(n)
-        # check if the text has a biblical citation. 
-        if verify(n): 
-            # if so, then append it to the possible_citations list for later processing 
-            possible_citations.append(n)
-        # append the cleaned and standardized note to the master list of notes 
-        notes.append(n)
+    for soup in soups: 
+        for note in soup.find_all('note'): 
+            # make all letters lowercase
+            n = note.text.lower()
+            # replace all periods with spaces. This is to make sure that all citations are 
+            # in the format of "<book> <chapter> <line>", i.e., "Ecclesiastes 9 4". 
+            # Some citations are originally inconsistently formatted as "<book> <chapter>.<line>" at times 
+            # and "<book> <chapter>. <line>." at other times, so replacing periods with spaces is the first step to standardizing all the citation formats 
+            n = re.sub(r'(\.)',r' ',n)
+            # remove everything that is not an alphabetical character, integer, comma, ampersand or a single space
+            n = re.sub(r'[^a-z0-9\,\&\— ]','',n)
+            # replace all instances of "and" with ampersands 
+            n = re.sub(r'\band\b','&', n)
+            # next, replace all instances of two or more spaces with a single space. Thus, all the citation formats have been standardized. 
+            n = re.sub(r'\s+',' ',n)
+            # now, standardize all abbreviations in the text of this note tag  
+            n = replaceBible(n)
+            # Reformat the numbered books, which ensures that the later regex searches do not produce duplicates for these numbered books. 
+            n = replaceNumBook(n)
+            # check if the text has a biblical citation. 
+            if verify(n): 
+                # if so, then append it to the possible_citations list for later processing 
+                possible_citations.append(n)
+            # append the cleaned and standardized note to the master list of notes 
+            notes.append(n)
     # call another function to actually return a list of actual Biblical citations 
     margins = findCitations(possible_citations)
     # The special cases are the possibly "missing" citations, 
