@@ -204,6 +204,7 @@ def comma(book, passage):
     phrases = []
     if re.search('\-', passage):
         passage = re.sub(' -|- ','-',passage)
+        passage = re.sub('\,-','-',passage)
         edge_cases = re.findall(', (\d+ \d+-\d+)$|, (\d+ \d+-\d),',passage)
         # if there are hyphens indicating range of citations, 
         # e.g., "2 Kings 1 2-4" -->"2 Kings 1:2", "2 Kings 1:3", & "2 Kings 1:4"
@@ -312,6 +313,7 @@ def findCitations(notes_list):
                 else:
                     if re.search(r'\-',passage): 
                         phrase = re.sub(' -|- ','-',phrase)
+                        phrase = re.sub('\,-','-',phrase)
                         if re.search(r'[a-z]+ \d+ \d+—\d+$',phrase): 
                             # if there are hyphens indicating range of citations, 
                             # e.g., "2 Kings 1 2-4" -->"2 Kings 1:2", "2 Kings 1:3", & "2 Kings 1:4"
@@ -336,6 +338,7 @@ def findCitations(notes_list):
         # if there are no commas and ampersands but there are hyphens
         elif re.search(r'\—',phrase):
             phrase = re.sub(' -|- ','-',phrase)
+            phrase = re.sub('\,-','-',phrase)
             if re.search(r'[a-z]+ \d+ \d+—\d+$',phrase): 
                 citations.extend(hyphen(book, phrase))
             else: 
@@ -362,7 +365,8 @@ def findCitations(notes_list):
 
 '''Convert the numbered books back into their original formats, i.e., "Onecorinthians" to "1 Corinthians"'''
 def proper_title(citations_list, pesky_list): 
-    for idx, citation in enumerate(citations_list): 
+    for idx, citation in enumerate(citations_list):
+        citation = re.sub(f'\,','',citation)
         citation = citation.split(' ') 
         book = citation[0]
         if re.search('one',book):
@@ -378,6 +382,7 @@ def proper_title(citations_list, pesky_list):
             citations_list[idx] = f'{book.capitalize()} {citation[1]}'
 
     for idx, citation in enumerate(pesky_list): 
+        citation = re.sub(f'\,','',citation)
         citation = citation.split(' ') 
         book = citation[0]
         if re.search('one',book):
