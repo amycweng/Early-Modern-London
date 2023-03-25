@@ -10,7 +10,7 @@ A10010 --
 A09965 -- 
 A70130 -- 
 A09950 -- Galatians 2:10
-A72143 -- 1 John 3:17; 2 Corinthians 9:9; Isaiah 61:1; Matthew 6:2; Matthew 6:20; Matthew 6:3; Philippians 2:4; Ephesians 4:28; Ezekiel 16:49; Luke 18:1; Matthew 25:42; Matthew 25:43; Proverbs 11:24; Isaiah 61:1; 2 Corinthians 9:7; Romans 12:8; Romans 2:8; 2 Corinthians 9:12; Matthew 6:1; 2 Corinthians 9:8; Acts 10:3; Hebrews 13:16; 2 Corinthians 9:8; Matthew 25:35; Isaiah 58:7
+A72143 -- 1 John 3:17; 2 Corinthians 9:9; Isaiah 61:1; Matthew 6:2; Matthew 6:20; Matthew 6:3; Philippians 2:4; Ephesians 4:28; Ezekiel 16:49; Luke 18:1; Matthew 25:42; Matthew 25:43; Proverbs 11:24; Isaiah 61:1; 2 Corinthians 9:7; Romans 12:8; Romans 2:8; 2 Corinthians 9:12; Matthew 6:1; 2 Corinthians 9:8; Hebrews 13:16; 2 Corinthians 9:8; Matthew 25:35; Isaiah 58:7
 A10024 -- Matthew 6:4; Matthew 6:4
 A14989 -- 
 A01531 -- 1 Corinthians 13:3; Matthew 25:35; Matthew 25:36; Matthew 25:42; 1 John 3:17; Galatians 6:10; Acts 10:4; Acts 10:2; 1 John 3:18; James 2:15; 2 Corinthians 9:12; 1 Corinthians 16:2; Hebrews 13:16; Proverbs 19:17
