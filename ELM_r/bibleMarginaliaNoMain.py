@@ -1,4 +1,5 @@
 '''
+@author Amy Weng
 This code extracts biblical citations from the marginal notes, i.e., marginalia, encoded in TCP XML files under the <note> tags. 
 
 Takes in a single TCP XML file and outputs the following:
@@ -15,8 +16,8 @@ bible = {
     'ex exod exo':'exodus',
     'lev le lv lu leu leuiticus leuit levit':'leviticus',
     'num nu nm numb nb':'numbers',
-    'deut de dt deu deuter':'deuteronomy',
-    'josh iosh jos ios jsh ish ioshua iosua josua':'joshua',
+    'deut de dt deu deuter dut':'deuteronomy',
+    'josh iosh jos ios jsh ish ioshua iosua josua iosu':'joshua',
     'judg jdg jg jdgs iudg idg ig idgs iudges': 'judges',
     'ruth rth ru':'ruth',
     'samuell sam sm':'samuel',
@@ -26,13 +27,13 @@ bible = {
     'neh ne nehem nehe':'nehemiah',
     'est esth es ester':'esther',
     'job jb iob ib':'job',
-    'ps psalm psl pslm psa psm pss psal psalme':'psalms',
+    'ps psalm psl pslm psa psm pss psal psalme psol':'psalms',
     'prov pro prv pr prou pru prouerb prouerbs pou pov proverb':'proverbs',
-    'eccles eccl eccle ecc ec ecls ecles':'ecclesiastes',
+    'eccles eccl eccle ecc ec ecls ecles eccls eecles':'ecclesiastes',
     'cant cantic canticle cantica carm':'canticles',
-    'isa isai isay es esi esa esai esay esaiae':'isaiah',
-    'jer je jr ier ie ir ieremiah ierem jerem ierm iere':'jeremiah',
-    'lam la lament':'lamentations',
+    'isa isai isay es esi esa esai esay esaiae esal':'isaiah',
+    'jer je jr ier ie ir ieremiah ierem erem jerem ierm iere':'jeremiah',
+    'lam la lament lamnt':'lamentations',
     'ezek eze ezk ezech ezck ezec':'ezekiel',
     'dan da dn':'daniel',
     'hos ho hoshea hosh hose hsea hsh':'hosea',
@@ -40,14 +41,14 @@ bible = {
     'am':'amos',
     'obad ob':'obadiah',
     'jnh jon ion inh ionah jona iona':'jonah',
-    'mic mc mica':'micah',
+    'mic mc mica micha':'micah',
     'na nah':'nahum',
-    'hab hb habb habbak habba habbac habac':'habakkuk',
+    'hab hb habb habbak habba habbac habac abakk':'habakkuk',
     'zeph zep zp zephan':'zephaniah',
     'hag hg hagg':'haggai',
     'zech zec zc zch zach zachar zac':'zechariah',
     'mal ml malac malach mala':'malachi',
-    'matt matth mt math mat mattth':'matthew',
+    'matt matth mt math mat mattth mattb':'matthew',
     'mrk mar mk mr marc marke':'mark',
     'luk lk luc lc':'luke',
     'joh jhn ioh ihn iohn ioan joan':'john',
@@ -56,18 +57,17 @@ bible = {
     'cor co cr or corinth corin':'corinthians',
     'gal ga galat':'galatians',
     'eph ephes ephe ephs ehes':'ephesians',
-    'phil php pp phillip philip':'philippians',
+    'phil php pp phillip philip hilip phi':'philippians',
     'col coloss colos':'colossians',
-    'thess thes th thss':'thessalonians',
-    'tim timoth':'timothy',
+    'thess thes th thss thoss':'thessalonians',
+    'tim timoth tom timo':'timothy',
     'tit tius':'titus',
     'philem phm pm':'philemon',
     'heb hebr':'hebrews',
-    'jas jm iam ias im iames jam iaes':'james',
+    'jas jm iam iams ias im iames jam iaes':'james',
     'pet pe pt p petr':'peter',
     'jud jd iud id iude':'jude',
     'rev re reu reuelation reuel reuelations reve revel':'revelation',
-    'apoc apo apoc': 'apocrypha',
     'tob tobi':'tobit',
     'jth jdth jdt ith idth idt iudith':'judith',
     'ecclus':'ecclesiasticus',
@@ -96,39 +96,34 @@ numBook = {
     '3 john':'threejohn'
 }
 
-'''This function takes a string and standardizes all instances of the abbreviations found in the keys of the "bible" dictionary.'''
+'''Standardizes known abbreviations'''
 def replaceBible(text):
-    for key,value in zip(bible.keys(), bible.values()):
+    for key,value in bible.items():
         variations = key.split(' ')
+        variations.append(value)
         for v in variations: 
-            text = re.sub(rf'\b{v}\b|\b{v}\.\b|^{v}\.\b|^{v}\b', value, text)
-    return text
+            if re.search(rf'\b{v}\b|^{v}\b', text): 
+                return True,re.sub(rf'\b{v}\b|^{v}\b', value, text)
+    return False,text
 
-'''This function converts all instances of numbered books into single words with the "numBooks" dictionary.'''
+'''Converts numbered books into a single string, e.g., '1 corinthians' to '1corinthians' for ease of processing'''
 def replaceNumBook(text):
-    for key,value in zip(numBook.keys(), numBook.values()):
-        text = re.sub(rf'\b{key}\b', value, text)
-        text = re.sub(r'\s+',' ',text)
-    return text
+    for key,value in numBook.items():
+        if key in text: 
+            return re.sub(rf'{key}', value, text)
+    return None
 
 # Get all of the names of the Bible's books 
 bibleBooks = [x for x in bible.values()]
 bibleBooks.extend([x for x in numBook.values()])
-# Capitalize the books for final output 
-original_titles = {v.capitalize():k for k,v in numBook.items()}
 
-'''Checks if a text string contains any instances of a Biblical citation'''
-def verify(text): 
-    for book in bibleBooks:
-        if re.search(rf'{book} \d+', text): 
-            return True
-
-'''Master function to extract all the Biblical citations from the marginalia of one file.''' 
+'''Master function to extract all the citations from the marginalia of one file.''' 
 def getMarginalia(filepath):
     # read the input XML file 
     with open(filepath,'r') as file: 
         data = file.read()
     # use soupstrainer to only parse the main text body (excluding dedicatory materials etc)
+    # each xml file only has one of these, so there will only be one none-empty soup for each file 
     bodyText1 = SoupStrainer("div1",attrs={"type":"text"})
     bodyText2 = SoupStrainer("div1",attrs={"type":"part"})
     bodyText3 = SoupStrainer("div1",attrs={"type":"sermon"})
@@ -139,11 +134,12 @@ def getMarginalia(filepath):
     soup2 = BeautifulSoup(data,parse_only=bodyText2,features='html.parser')
     soup3 = BeautifulSoup(data,parse_only=bodyText3,features='html.parser')
     soup4 = BeautifulSoup(data,parse_only=bodyText4,features='html.parser')
+    # only one of these soups will actually have content 
     soups = [soup1, soup2,soup3,soup4]
-    # initialize list to keep track of the notes that might have citations
-    possible_citations = []
-    # keep track of all the cleaned and standardized notes for later processing of special cases 
-    notes = []
+    # phrases with known scriptural abbreviations 
+    citations = []
+    # phrases with unknown abbreviations 
+    unknown = []
     # iterate through every note tag of this file 
     for soup in soups: 
         for note in soup.find_all('note'): 
@@ -158,50 +154,85 @@ def getMarginalia(filepath):
             n = re.sub(r'[^a-z0-9\,\&\— ]','',n)
             # replace all instances of "and" with ampersands 
             n = re.sub(r'\band\b','&', n)
-            # next, replace all instances of two or more spaces with a single space. Thus, all the citation formats have been standardized. 
+            # next, replace all instances of two or more spaces with a single space. 
             n = re.sub(r'\s+',' ',n)
-            # now, standardize all abbreviations in the text of this note tag  
-            n = replaceBible(n)
-            # Reformat the numbered books, which ensures that the later regex searches do not produce duplicates for these numbered books. 
-            n = replaceNumBook(n)
-            # check if the text has a biblical citation. 
-            if verify(n): 
-                # if so, then append it to the possible_citations list for later processing 
-                possible_citations.append(n)
-            # append the cleaned and standardized note to the master list of notes 
-            notes.append(n)
-    # call another function to actually return a list of actual Biblical citations 
-    margins = findCitations(possible_citations)
-    # The special cases are the possibly "missing" citations, 
-    # i.e., words that are followed by two integers but not found in the keys of the standardizer Bible dictionary
-    special_cases = findMissing(notes)
-    # return both the list of citations and special cases 
-    return margins,special_cases
+
+            # find instances of possible numbered books 
+            pattern1 = re.findall(rf'([1|2|3] [a-z]+ [^a-z]+)',n)
+            if len(pattern1) > 0: 
+                for item in pattern1: 
+                    if re.search(rf'\d+ \d+',item): 
+                        found, standard = replaceBible(item)
+                        # if there is a known abbreviation, standardize and append to appropriate list  
+                        if found: 
+                            standard = replaceNumBook(standard)
+                            # delete the current instance from the entire string
+                            # this prevents repeats when we process pattern2 citations below  
+                            n = re.sub(item,' ',n) 
+                            citations.append(standard)
+                        else: 
+                            # there is an unknown abbreviation
+                            item = item.split(' ')
+                            unknown.append(item[1])
+
+            # find instances of other scriptural citations 
+            pattern2 = re.findall(rf'([a-z]+ [^a-z]+)', n)
+            if len(pattern2) > 0: 
+                for item in pattern2: 
+                    if re.search(rf'\d+ \d+',item): 
+                        found, standard = replaceBible(item) 
+                        # if there is a known abbreviation, standardize and append to appropriate list  
+                        if found and standard:
+                            citations.append(standard)
+                        else: 
+                            # there is an unknown abbreviation
+                            item = item.split(' ')
+                            unknown.append(item[0])
+    # call another function to actually return a list of actual scriptural citations 
+    citations = findCitations(citations)
+    # return both the list of citations and unknown abbreviations
+    return citations,Counter(unknown)
 
 '''
-Helper function to extract citations from a marginal note that contain commas 
+Helper function to extract citations from a marginal note that contains commas 
 (i.e., multiple line citations from the same chapter of the same book)
 '''
+
 def comma(book, passage): 
     # initialize a list of citations 
     phrases = []
-    # account for the edge case in which there is a full citation following a comma
-    # i.e., given the phrase "isaiah 1 2, 3, 4 5, jeremiah 12 7", this code should return "isaiah 4 5" as its own citation 
-    # The other citations would be "isaiah 1 2", "isaiah 1 3", and "jeremiah 12 7" (returned either by the comma() or the simple() functions)
-    edge_case = re.search(', \d+ \d+',passage)
-    if edge_case: 
-        # if there is an instance of the edge case, call the simple() function 
-        phrases.append(simple(book, edge_case.group()))
-        # add the returned string to the list of citations 
-        passage = re.sub(edge_case.group(), '',passage)
-    # the remaining cases are those that are like "isaiah 1 2, 3"
+    if re.search('\-', passage):
+        passage = re.sub(' -|- ','-',passage)
+        edge_cases = re.findall(', (\d+ \d+-\d+)$|, (\d+ \d+-\d),',passage)
+        # if there are hyphens indicating range of citations, 
+        # e.g., "2 Kings 1 2-4" -->"2 Kings 1:2", "2 Kings 1:3", & "2 Kings 1:4"
+        if len(edge_cases) > 0: 
+            for tuple in edge_cases:
+                if tuple[0] != '':  edge_case = tuple[0]
+                else: edge_case = tuple[1]
+                phrases.extend(hyphen(book,edge_case))
+                # erase the passage from consideration
+                passage = re.sub(edge_case, '',passage)
+        else: 
+            # case of discrete citations, e.g., "Psalms 1 2 - 3 4" --> "Psalms 1:2" and "Psalms 3:4"
+            # i.e., "2 King. 6. 22.—9. 24.—13 15." --> "2 Kings 6:22", "2 Kings 9:24" and "2 Kings 13:15"
+            passages = passage.split('—')
+            for case in passages: 
+                nums = re.findall(r'\d+',case)
+                phrases.append(f'{book} {nums[0]}:{nums[1]}')
+    # the remaining cases are those that are like "isaiah 1 2, 3, 4, 5 5"
+    # which this code turns into "isaiah 1:2", "isaiah 1:3", "isaiah 1:4", "Isaiah 5:5"
     # find all the integers 
-    nums = re.findall(f'(\d+)',passage)
-    # The first number will be the chapter number, and all the ensuing ones are line numbers 
+    passage = re.sub(rf'{book}| ,','',passage).strip()
+    nums = passage.split(' ')
+    chapter,line = nums[0],0
     for num in nums[1:]: 
-        phrases.append(f'{book} {nums[0]}:{num}')
-    # return list of citations 
-    return phrases 
+        if ',' in num: 
+            line = num 
+            phrases.append(f'{book} {chapter}:{line}')
+        else: 
+            chapter = num
+    return phrases  
 
 '''
 Helper function to extract citations from a marginal note that does not contain commas
@@ -210,13 +241,11 @@ Target format is "<book> <chapter> <line>"
 '''
 def simple(book, passage): 
     # the simple case of just having "<book> <chapter> <line>" 
-    passage = re.findall('(\d+) (\d+)',passage)[0]
-    # return citation 
-    return f'{book} {passage[0]}:{passage[1]}'
+    nums = re.findall('\d+',passage)
+    return f'{book} {nums[0]}:{nums[1]}'
 
 '''
 Helper function to extract citations from a marginal note that does not contain commas
-
 Target format is "<book> <chapter> <line1> <line2>" or "<book> <chapter1> <line1> <chapter2> <line2>" 
     or "<book> <chapter> <line1> <line2> <line3> <line4>" 
 '''
@@ -240,27 +269,16 @@ def othersimple(book, passage):
 
 '''
 Helper function to extract citations from a marginal note that contains hyphens 
+
+These are cases of continuous citation, 
+e.g, "Genesis 3 9-14" --> "Genesis 3:9", "Genesis 3:10", etc. until "Genesis 3:14"
 '''
 def hyphen(book, phrase):
-    phrases = []
-    if re.search(r'[a-z]+ \d+ \d+—\d+|[a-z]+ \d+ \d+ —\d+',phrase): 
-        # case of continuous citation, e.g, "Genesis 3 9-14" --> "Genesis 3:9", "Genesis 3:10", etc. until "Genesis 3:14"
-        nums = re.findall(r'\d+',phrase)
-        chapter, start, end = nums[0], int(nums[1]), int(nums[2])
-        for idx in range(end-start+1): 
-            phrases.append(f'{book} {chapter}:{start+idx}')
-    else: 
-        # case of discrete citations, e.g., "Psalms 1 2 - 3 4" --> "Psalms 1:2" and "Psalms 3:4"
-        passages = phrase.split('—')
-        chapters = []
-        for passage in passages: 
-            if not re.search('\d+', passage): continue
-
-            if not re.search('\d+ \d+',passage): 
-                phrases.append(f'{book} {chapters[-1]} {passage.strip()}')
-            else:
-                chapters = re.findall('\d+',passage)[0]
-                phrases.append(simple(book,passage))
+    phrases = [] 
+    nums = re.findall(r'\d+',phrase)
+    chapter, start, end = nums[0], int(nums[1]), int(nums[2])
+    for idx in range(end-start+1): 
+        phrases.append(f'{book} {chapter}:{start+idx}')
     return phrases
 
 
@@ -270,112 +288,106 @@ def findCitations(notes_list):
     citations, outliers = [], []
 
     # iterate through every single item of the notes_list
-    for n in notes_list: 
-        # initialize even more local variables of citations and outliers 
-        # iterate through every single book of the bible because each note line can have citations from multiple different books 
-        for book in bibleBooks:
-            phrases, pesky = [], []
-            # search whether the current phrase an instance of this book
-            phrase = re.search(rf'\b{book}\b(.*?)(?=[a-z])|\b{book}\b(.*?)$',n)
-            # if the current note phrase does not have an instance of this book, continue on to the next book 
-            if phrase is None: continue
-            # if there is an instance, then group the regex search result together 
-            # so that the phrase only contains the citation for a SINGLE book 
-            # i.e., "isaiah 5 5 "
-            phrase = phrase.group().strip()
-            n = re.sub(phrase,'',n)
-            # if there is no instance of the book followed by at least two decimals, skip to the next book  
-            if not re.search(r'[a-z]+ \d+ \d+',phrase): continue
-            
-            # if the note is simply a single citation, call simple() to append the citation to the list of citations 
-            if re.search(r'^[a-z]+ \d+ \d+$',phrase):  
-                phrases.append(simple(book, phrase))
-            # Case of having "<book> <chapter> <line1> <line2>"
-            elif re.search(r'^[a-z]+ \d+ \d+ \d+$|^[a-z]+ \d+ \d+ \d+ \d+$|^[a-z]+ \d+ \d+ \d+ \d+ \d+$',phrase):  
-                phrases.extend(othersimple(book, phrase))
-            # if there are ampersands in the note, split the note up by the ampersands 
-            elif re.search('&',phrase): 
-                passages = phrase.split('&')
-                for passage in passages: 
-                    passage = passage.strip()
-                    # call comma() if the substring as a comma 
-                    if re.search(',',passage):
-                        phrases.extend(comma(book, passage))
-                    else:
-                        if re.search(r'\-',passage): 
-                            passages = passage.split('-')
-                            for passage in passages: 
-                                phrases.append(simple(book,passage))
-                        # call othersimple() to account for the case of "<chapter> <line1> <line2>" 
-                        elif re.search(r'\d+ \d+ \d+$', passage): 
-                            phrases.extend(othersimple(book, passage))
-                        # call simple() to account for "<chapter> <line1>"
-                        elif re.search(r'\d+ \d+$',passage): 
-                            phrases.append(simple(book, passage))
-            # if there are no ampersands, call comma() to account for the multiple citations of the same chapter 
-            elif re.search(',',phrase): 
-                phrases.extend(comma(book, phrase))
-            # if there are hyphens dividing individual citations, 
-            # i.e., "2 King. 6. 22.—9. 24.—13 15." --> "2 Kings 6:22", "2 Kings 9:24" and "2 Kings 13:15"
-            elif re.search(r'\—',phrase): 
-                phrases.extend(hyphen(book, phrase))
-            # else, there is a format that this code cannot account effectively for 
+    for phrase in notes_list: 
+        if phrase == None: continue
+        phrase = phrase.strip()
+        # if there is no instance of the book followed by at least two decimals, skip to the next instance   
+        if not re.search(r'[a-z]+ \d+ \d+',phrase): continue
+        
+        book = phrase.split(' ')[0]
+        # if the note is simply a single citation, call simple() to append the citation to the list of citations 
+        if re.search(r'[a-z]+ \d+ \d+$',phrase):  
+            citations.append(simple(book, phrase))
+        elif re.search(r'^[a-z]+ \d+ \d+ \d+$|^[a-z]+ \d+ \d+ \d+ \d+$|^[a-z]+ \d+ \d+ \d+ \d+ \d+$',phrase):  
+            citations.extend(othersimple(book, phrase))
+        # if there are ampersands in the note, split the note up by the ampersands 
+        elif re.search('&',phrase): 
+            passages = phrase.split('&')
+            for passage in passages: 
+                passage = passage.strip()
+                # call comma() if the substring as a comma 
+                if re.search(',',passage):
+                    citations.extend(comma(book, passage))
+                else:
+                    if re.search(r'\-',passage): 
+                        phrase = re.sub(' -|- ','-',phrase)
+                        if re.search(r'[a-z]+ \d+ \d+—\d+$',phrase): 
+                            # if there are hyphens indicating range of citations, 
+                            # e.g., "2 Kings 1 2-4" -->"2 Kings 1:2", "2 Kings 1:3", & "2 Kings 1:4"
+                            citations.extend(hyphen(book, phrase))
+                        else: 
+                            # case of discrete citations, e.g., "Psalms 1 2 - 3 4" --> "Psalms 1:2" and "Psalms 3:4"
+                            # i.e., "2 King. 6. 22.—9. 24.—13 15." --> "2 Kings 6:22", "2 Kings 9:24" and "2 Kings 13:15"
+                            passages = phrase.split('—')
+                            for case in passages: 
+                                nums = re.findall(r'\d+',case)
+                                citations.append(f'{book} {nums[0]}:{nums[1]}')
+                    # call othersimple() to account for the case of "<chapter> <line1> <line2>" 
+                    elif re.search(r'\d+ \d+ \d+', passage): 
+                        citations.extend(othersimple(book, passage))
+                    
+                    # call simple() to account for "<chapter> <line1>"
+                    elif re.search(r'\d+ \d+$',passage): 
+                        citations.append(simple(book, passage))
+        # if there are no ampersands, call comma() to account for the multiple citations of the same chapter 
+        elif re.search(',',phrase): 
+            citations.extend(comma(book, phrase))
+        # if there are no commas and ampersands but there are hyphens
+        elif re.search(r'\—',phrase):
+            phrase = re.sub(' -|- ','-',phrase)
+            if re.search(r'[a-z]+ \d+ \d+—\d+$',phrase): 
+                citations.extend(hyphen(book, phrase))
             else: 
-                # hard coding some special cases for the charity sermons dataset
-                if 'psalms 119 5 10 32 57 93 106 173 40' in phrase: 
-                    # original is Psal 119.5 10.32.57.93.106 173.40.
-                    phrases.extend(['psalms 119:5', 'psalms 10:32', 'psalms 10:57','psalms 10:93','psalms 10:106', 'psalms 173:40'])
-                elif 'romans 8 1 3 5 8 9' in phrase: 
-                    # original is Rm. 8.1.3 5.8.9
-                    phrases.extend(['romans 8:1','romans 8:2', 'romans 8:3', 'romans 5:8', 'romans 5:9'])
-                else: 
-                    pesky.append(phrase)
-            # capitalize the book of each citation and append to the list of citations to return
-            for phrase in phrases:
-                citations.append(phrase.capitalize())
-            # do the same for the outliers 
-            for p in pesky: 
-                outliers.append(p.capitalize())
-    # change numbered books into original formatting for pretty output 
+                passages = phrase.split('—')
+                for case in passages: 
+                    if re.search('\d+ \d+', case):
+                        nums = re.findall('\d+',case)
+                        citations.append(f'{book} {nums[0]}:{nums[1]}')
+        # else, there is a format that this code cannot account effectively for 
+        else: 
+            # hard coding some special cases for the charity sermons dataset
+            if 'psalms 119 5 10 32 57 93 106 173 40' in phrase: 
+                # original is Psal 119.5 10.32.57.93.106 173.40.
+                citations.extend(['psalms 119:5', 'psalms 10:32', 'psalms 10:57','psalms 10:93','psalms 10:106', 'psalms 173:40'])
+            elif 'romans 8 1 3 5 8 9' in phrase: 
+                # original is Rm. 8.1.3 5.8.9
+                citations.extend(['romans 8:1','romans 8:2', 'romans 8:3', 'romans 5:8', 'romans 5:9'])
+            else: 
+                outliers.append(phrase)
+    # pretty formatting 
     citations, outliers = proper_title(citations, outliers)
     # return both citations and outliers  
     return citations, outliers
 
-'''Main function to find special cases of "<word> <int1> <int2>" in which the <word> is not part of the standardizer dictionary'''
-def findMissing(missing_list): 
-    special_cases = []
-    for m in missing_list: 
-        if re.search('[a-z]+ \d+ \d+',m): 
-            missing = re.findall('[a-z]+ \d+ \d+',m)
-            for phrase in missing: 
-                found = False
-                for book in bibleBooks:
-                    if re.search(rf'\b{book}\b', phrase): 
-                        found = True 
-                        break
-                if found: 
-                    # if the <word> is actually a known Bible book title, skip onto the next phrase
-                    continue
-                # else, there is a special case 
-                special_cases.append(phrase)
-    return sorted(special_cases)
-
-'''For pretty formatting, convert the numbered books back into their original formats, i.e., "Onecorinthians" to "1 Corinthians"'''
+'''Convert the numbered books back into their original formats, i.e., "Onecorinthians" to "1 Corinthians"'''
 def proper_title(citations_list, pesky_list): 
-    for idx, passage in enumerate(citations_list): 
-        book = passage.split(' ')[0]
-        if book in original_titles.keys():
-            orig_title = original_titles[book].split(' ')
-            orig_title[1] = orig_title[1].capitalize()
-            passage = re.sub(book, ' '.join(orig_title), passage)
-            citations_list[idx] = passage
+    for idx, citation in enumerate(citations_list): 
+        citation = citation.split(' ') 
+        book = citation[0]
+        if re.search('one',book):
+            book = re.sub('one','',book)
+            citations_list[idx] = f'1 {book.capitalize()} {citation[1]}'
+        elif re.search('two',book):
+            book = re.sub('two','',book)
+            citations_list[idx] = f'2 {book.capitalize()} {citation[1]}'
+        elif re.search('three',book):
+            book = re.sub('three','',book)
+            citations_list[idx] = f'3 {book.capitalize()} {citation[1]}'
+        else: 
+            citations_list[idx] = f'{book.capitalize()} {citation[1]}'
 
-    for idx, passage in enumerate(pesky_list): 
-        book = passage.split(' ')[0]
-        if book in original_titles.keys():
-            orig_title = original_titles[book].split(' ')
-            orig_title[1] = orig_title[1].capitalize()
-            passage = re.sub(book, ' '.join(orig_title), passage)
-            pesky_list[idx] = passage
-
+    for idx, citation in enumerate(pesky_list): 
+        citation = citation.split(' ') 
+        book = citation[0]
+        if re.search('one',book):
+            book = re.sub('one','',book)
+            pesky_list[idx] = f'1 {book.capitalize()} {citation[1]}'
+        elif re.search('two',book):
+            book = re.sub('two','',book)
+            pesky_list[idx] = f'2 {book.capitalize()} {citation[1]}'
+        elif re.search('three',book):
+            book = re.sub('three','',book)
+            pesky_list[idx] = f'3 {book.capitalize()} {citation[1]}'
+        else: 
+            pesky_list[idx] = f'{book.capitalize()} {citation[1]}'
     return citations_list, pesky_list 
