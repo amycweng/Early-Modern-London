@@ -3,7 +3,7 @@ bible_charity = ['1 Corinthians 10:24', '1 Corinthians 11:34', '1 Corinthians 13
 cited_dict = {
 'helping': ['Acts 2:45', 'Matthew 19:21', 'Deuteronomy 15:7', 'Galatians 2:10', 'Isaiah 58:7', 'Isaiah 61:1', 'James 2:15', 'James 2:16', 'Job 29:12', 'Luke 11:41', 'Luke 12:33', 'Luke 14:12', 'Matthew 25:35', 'Philippians 2:4', 'Proverbs 3:27', 'Romans 12:8', 'Romans 12:13', 'Titus 3:14', '1 John 3:17','Matthew 6:20','1 Corinthians 16:1','Luke 4:18','James 1:27','1 Corinthians 16:2', 'Matthew 25:36','James 5:14','Proverbs 3:28','Acts 11:29','Luke 18:1','Acts 14:23','2 Corinthians 8:3','Galatians 6:10','2 Corinthians 8:11'], 
 
-'performativity': ['Matthew 6:1', 'Matthew 6:2', 'Matthew 6:3','Matthew 6:4','1 John 3:18','Acts 11:30','1 Corinthians 13:3','Romans 2:8',], 
+'performativity': ['Matthew 6:1', 'Matthew 6:2', 'Matthew 6:3','Matthew 6:4','1 John 3:18','Acts 11:30','1 Corinthians 13:3','Romans 2:8'], 
 
 'punishment': ['Matthew 25:42', 'Job 31:21', 'Proverbs 21:13','Matthew 25:41', 'Matthew 25:43','Ezekiel 16:49','Matthew 25:46', 'Job 31:22', 'Proverbs 17:5'], 
 
