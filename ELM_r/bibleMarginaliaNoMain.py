@@ -10,7 +10,6 @@ Takes in a single TCP XML file and outputs the following:
 '''
 import re 
 from bs4 import BeautifulSoup, SoupStrainer
-from collections import Counter
 
 # Dictionary that maps the abbreviatons of Bible books to their full titles for standardization purposes
 bible = {
@@ -69,7 +68,7 @@ bible = {
     'jas jm iam iams ias im iames jam iaes':'james',
     'pet pe pt p petr':'peter',
     'jud jd iud id iude':'jude',
-    'rev re reu reuelation reuel reuelations reve revel':'revelation',
+    'rev re reu reuelation reuel reuelations reve revel apoc apo':'revelation',
     'tob tobi':'tobit',
     'jth jdth jdt ith idth idt iudith':'judith',
     'ecclus':'ecclesiasticus',
@@ -144,16 +143,37 @@ def getMarginalia(filepath):
     unknown = []
     # iterate through every note tag of this file 
     for soup in soups: 
-        for note in soup.find_all('note'): 
-            # make all letters lowercase
-            n = note.text.lower()
+        for note in soup.find_all('note'):
+            # find illegible parts  
+            gaps,gapNote = [], str(note)
+            foundGap = False
+            for gap in note.find_all('gap'):
+                gapNote = re.sub(str(gap),'*',gapNote)
+                foundGap = True
+
+            # we only care if the illegible characters are part of a number 
+            if foundGap: 
+                gapNote = gapNote.split(' ')
+                for g in gapNote: 
+                    if re.search('\d+\*|\*\d+',g): 
+                        gaps.append(g)
+            
+            if 'place="marg"' not in str(note): 
+                # skip all non-marginal notes 
+                continue
+            n = note.text
+            # ensure that we preserve the illegible characters that are in numbers
+            # to prevent getting false citations 
+            for gap in gaps:
+                noGap = re.sub('\*','',gap) 
+                n = re.sub(noGap,gap,n)
             # replace all periods with spaces. This is to make sure that all citations are 
             # in the format of "<book> <chapter> <line>", i.e., "Ecclesiastes 9 4". 
             # Some citations are originally inconsistently formatted as "<book> <chapter>.<line>" at times 
             # and "<book> <chapter>. <line>." at other times, so replacing periods with spaces is the first step to standardizing all the citation formats 
-            n = re.sub(r'(\.)',r' ',n)
-            # remove everything that is not an alphabetical character, integer, comma, ampersand or a single space
-            n = re.sub(r'[^a-z0-9\,\&\— ]','',n)
+            n = re.sub(r'(\.)',r' ',n).lower()
+            # remove everything that is not an alphabetical character, integer, comma, ampersand, illegible char, or a single space
+            n = re.sub(r'[^a-z0-9\,\&\-\—\* ]','',n)
             # replace all instances of "and" with ampersands 
             n = re.sub(r'\band\b','&', n)
             # next, replace all instances of two or more spaces with a single space. 
@@ -197,45 +217,24 @@ def getMarginalia(filepath):
 
 '''
 Helper function to extract citations from a marginal note that contains commas 
-(i.e., multiple line citations from the same chapter of the same book)
+e.g, "isaiah 1 2, 3, 4, 5 5" --> "isaiah 1:2", "isaiah 1:3", "isaiah 1:4", "Isaiah 5:5"
 '''
-
 def comma(book, passage): 
-    # initialize a list of citations 
     phrases = []
-    if re.search('\-', passage):
-        passage = re.sub(' -|- ','-',passage)
-        passage = re.sub('\,-','-',passage)
-        edge_cases = re.findall(', (\d+ \d+-\d+)$|, (\d+ \d+-\d),',passage)
-        # if there are hyphens indicating range of citations, 
-        # e.g., "2 Kings 1 2-4" -->"2 Kings 1:2", "2 Kings 1:3", & "2 Kings 1:4"
-        if len(edge_cases) > 0: 
-            for tuple in edge_cases:
-                if tuple[0] != '':  edge_case = tuple[0]
-                else: edge_case = tuple[1]
-                phrases.extend(hyphen(book,edge_case))
-                # erase the passage from consideration
-                passage = re.sub(edge_case, '',passage)
-        else: 
-            # case of discrete citations, e.g., "Psalms 1 2 - 3 4" --> "Psalms 1:2" and "Psalms 3:4"
-            # i.e., "2 King. 6. 22.—9. 24.—13 15." --> "2 Kings 6:22", "2 Kings 9:24" and "2 Kings 13:15"
-            passages = passage.split('—')
-            for case in passages: 
-                nums = re.findall(r'\d+',case)
-                phrases.append(f'{book} {nums[0]}:{nums[1]}')
-    # the remaining cases are those that are like "isaiah 1 2, 3, 4, 5 5"
-    # which this code turns into "isaiah 1:2", "isaiah 1:3", "isaiah 1:4", "Isaiah 5:5"
-    # find all the integers 
+    # make sure there is always at least one space after a comma
+    passage = re.sub(',',', ',passage)
+    # remove duplicate spaces 
+    passage = re.sub('  ',' ',passage)  
     passage = re.sub(rf'{book}| ,','',passage).strip()
     nums = passage.split(' ')
     chapter,line = nums[0],0
     for num in nums[1:]: 
-        if ',' in num: 
-            line = num 
+        if ',' in num or num == nums[-1]: 
+            line = num.strip('\,') 
             phrases.append(f'{book} {chapter}:{line}')
         else: 
             chapter = num
-    return phrases  
+    return phrases
 
 '''
 Helper function to extract citations from a marginal note that does not contain commas
@@ -271,12 +270,10 @@ def othersimple(book, passage):
     return phrases 
 
 '''
-Helper function to extract citations from a marginal note that contains hyphens 
-
 These are cases of continuous citation, 
 e.g, "Genesis 3 9-14" --> "Genesis 3:9", "Genesis 3:10", etc. until "Genesis 3:14"
 '''
-def hyphen(book, phrase):
+def continuous(book, phrase):
     phrases = [] 
     nums = re.findall(r'\d+',phrase)
     chapter, start, end = nums[0], int(nums[1]), int(nums[2])
@@ -284,6 +281,53 @@ def hyphen(book, phrase):
         phrases.append(f'{book} {chapter}:{start+idx}')
     return phrases
 
+'''
+These are cases in which hyphens divide discrete citations, 
+e.g., "Acts 5 12, 14 -8 6 -9 35, 42" --> "Acts 5:12", "Acts 5:14", "Acts 8:6", "Acts 9:35" and "Acts 9:42" 
+'''
+def hyphen(book,passage): 
+    citations, outliers = [], []
+    passage = re.sub(' -|- | - ','-',passage)
+    passage = passage.strip().strip('-')
+    if re.search('\d+-\d+-\d+',passage): 
+        # cases like psalms 2 4-4 4-4 9-5 19-6 14-13 14-22-29 in A85487 
+        # which is just too difficult to interpret
+        outliers.append(f'{book} {passage.strip()}')
+        return citations, outliers 
+    if re.search('^\d+ \d+, \d+-\d+$|^\d+ \d+, \d+, \d+-\d+$',passage): 
+        nums = re.findall('\d+',passage)
+        citations.extend(comma(book, ' '.join(nums[:-2])))
+        citations.extend(continuous(book,f'{nums[0]} {nums[2]}-{nums[3]}'))
+        return citations, outliers
+    parts = passage.split('-')
+    idx = 0
+    while idx < len(parts):
+        p = parts[idx]
+        if idx+1 < len(parts) and ' ' not in parts[idx+1].strip(): 
+            # there are hyphens indicating a range of citations 
+            actual = f'{parts[idx].strip()}-{parts[idx+1].strip()}'
+            if re.search(r'^\d+ \d+-\d+$',actual): 
+                citations.extend(continuous(book, actual))
+                idx += 2
+            elif re.search('^\d+-\d+$',actual):
+                idx += 1 
+                citations.append(f'{book} {parts[idx].strip()}:{parts[idx+1].strip()}')
+            else: 
+                idx += 1
+                outliers.append(actual)
+        elif re.search('\,',p): 
+            citations.extend(comma(book,p))
+            idx += 1
+        elif re.search(r'\d+ \d+ \d+$', p): 
+            citations.extend(othersimple(book, p))
+            idx += 1
+        elif re.search(r'\d+ \d+$',p): 
+            citations.append(simple(book, p))
+            idx += 1 
+        else: 
+            outliers.append(p)
+            idx += 1 
+    return citations, outliers 
 
 '''Main function to actually extract all of the Biblical citations'''
 def findCitations(notes_list): 
@@ -293,72 +337,62 @@ def findCitations(notes_list):
     # iterate through every single item of the notes_list
     for phrase in notes_list: 
         if phrase == None: continue
-        phrase = phrase.strip()
         # if there is no instance of the book followed by at least two decimals, skip to the next instance   
         if not re.search(r'[a-z]+ \d+ \d+',phrase): continue
-        
         book = phrase.split(' ')[0]
+        phrase = re.sub(book,'',phrase).strip()
+        if re.search('—|\,|\,$',phrase): 
+            phrase = re.sub('—','-',phrase)
+            phrase = re.sub('\,-','-',phrase)
+            phrase = re.sub('\,$| \,$','',phrase)
+        
+        orig_phrase = phrase
         # if the note is simply a single citation, call simple() to append the citation to the list of citations 
-        if re.search(r'[a-z]+ \d+ \d+$',phrase):  
+        if re.search(r'^\d+ \d+$',phrase):  
             citations.append(simple(book, phrase))
-        elif re.search(r'^[a-z]+ \d+ \d+ \d+$|^[a-z]+ \d+ \d+ \d+ \d+$|^[a-z]+ \d+ \d+ \d+ \d+ \d+$',phrase):  
-            citations.extend(othersimple(book, phrase))
         # if there are ampersands in the note, split the note up by the ampersands 
         elif re.search('&',phrase): 
             passages = phrase.split('&')
-            for passage in passages: 
+            for passage in passages:
                 passage = passage.strip()
-                # call comma() if the substring as a comma 
-                if re.search(',',passage):
-                    citations.extend(comma(book, passage))
-                else:
-                    if re.search(r'\-',passage): 
-                        phrase = re.sub(' -|- ','-',phrase)
-                        phrase = re.sub('\,-','-',phrase)
-                        if re.search(r'[a-z]+ \d+ \d+—\d+$',phrase): 
-                            # if there are hyphens indicating range of citations, 
-                            # e.g., "2 Kings 1 2-4" -->"2 Kings 1:2", "2 Kings 1:3", & "2 Kings 1:4"
-                            citations.extend(hyphen(book, phrase))
-                        else: 
-                            # case of discrete citations, e.g., "Psalms 1 2 - 3 4" --> "Psalms 1:2" and "Psalms 3:4"
-                            # i.e., "2 King. 6. 22.—9. 24.—13 15." --> "2 Kings 6:22", "2 Kings 9:24" and "2 Kings 13:15"
-                            passages = phrase.split('—')
-                            for case in passages: 
-                                nums = re.findall(r'\d+',case)
-                                citations.append(f'{book} {nums[0]}:{nums[1]}')
-                    # call othersimple() to account for the case of "<chapter> <line1> <line2>" 
-                    elif re.search(r'\d+ \d+ \d+', passage): 
-                        citations.extend(othersimple(book, passage))
-                    
-                    # call simple() to account for "<chapter> <line1>"
-                    elif re.search(r'\d+ \d+$',passage): 
-                        citations.append(simple(book, passage))
-        # if there are no ampersands, call comma() to account for the multiple citations of the same chapter 
+                if re.search('\-', passage):
+                    c, o = hyphen(book,passage)
+                    citations.extend(c)
+                    outliers.extend([f'{book} {item}' for item in o])
+                    # if len(o): print(orig_phrase)
+                elif re.search('\,',passage): 
+                    citations.extend(comma(book,passage))
+                # call othersimple() to account for the case of "<chapter> <line1> <line2>" 
+                elif re.search(r'\d+ \d+ \d+$', passage): 
+                    citations.extend(othersimple(book, passage))
+                # call simple() to account for "<chapter> <line1>"
+                elif re.search(r'^\d+ \d+$',passage): 
+                    citations.append(simple(book, passage))
+        
+        # if there are ampersands but there are hyphens
+        elif re.search('-', phrase):
+            c, o = hyphen(book,phrase)
+            citations.extend(c)
+            outliers.extend([f'{book} {item}' for item in o])
+            # if len(o): print(orig_phrase)
+        # if there are no ampersands & hyphens but there are commas  
         elif re.search(',',phrase): 
             citations.extend(comma(book, phrase))
-        # if there are no commas and ampersands but there are hyphens
-        elif re.search(r'\—',phrase):
-            phrase = re.sub(' -|- ','-',phrase)
-            phrase = re.sub('\,-','-',phrase)
-            if re.search(r'[a-z]+ \d+ \d+—\d+$',phrase): 
-                citations.extend(hyphen(book, phrase))
-            else: 
-                passages = phrase.split('—')
-                for case in passages: 
-                    if re.search('\d+ \d+', case):
-                        nums = re.findall('\d+',case)
-                        citations.append(f'{book} {nums[0]}:{nums[1]}')
         # else, there is a format that this code cannot account effectively for 
         else: 
+            # special cases; see the othersimple function description for examples
+            if re.search(r'\d+ \d+ \d+$',phrase):  
+                citations.extend(othersimple(book, phrase))
             # hard coding some special cases for the charity sermons dataset
-            if 'psalms 119 5 10 32 57 93 106 173 40' in phrase: 
+            elif '119 5 10 32 57 93 106 173 40' == phrase and book == 'psalms': 
                 # original is Psal 119.5 10.32.57.93.106 173.40.
                 citations.extend(['psalms 119:5', 'psalms 10:32', 'psalms 10:57','psalms 10:93','psalms 10:106', 'psalms 173:40'])
-            elif 'romans 8 1 3 5 8 9' in phrase: 
+            elif '8 1 3 5 8 9' in phrase and 'romans' in book: 
                 # original is Rm. 8.1.3 5.8.9
                 citations.extend(['romans 8:1','romans 8:2', 'romans 8:3', 'romans 5:8', 'romans 5:9'])
             else: 
-                outliers.append(phrase)
+                outliers.append(f'{book} {phrase}')
+                # print(orig_phrase)
     # pretty formatting 
     citations, outliers = proper_title(citations, outliers)
     # return both citations and outliers  
@@ -366,35 +400,41 @@ def findCitations(notes_list):
 
 '''Convert the numbered books back into their original formats, i.e., "Onecorinthians" to "1 Corinthians"'''
 def proper_title(citations_list, pesky_list): 
-    for idx, citation in enumerate(citations_list):
+    final_citations = []
+    final_pesky = []
+    for citation in citations_list:
         citation = re.sub(f'\,','',citation)
+        if re.search('\*',citation): 
+            pesky_list.append(citation)
+            continue
         citation = citation.split(' ') 
         book = citation[0]
-        if re.search('one',book):
-            book = re.sub('one','',book)
-            citations_list[idx] = f'1 {book.capitalize()} {citation[1]}'
-        elif re.search('two',book):
-            book = re.sub('two','',book)
-            citations_list[idx] = f'2 {book.capitalize()} {citation[1]}'
-        elif re.search('three',book):
-            book = re.sub('three','',book)
-            citations_list[idx] = f'3 {book.capitalize()} {citation[1]}'
-        else: 
-            citations_list[idx] = f'{book.capitalize()} {citation[1]}'
 
-    for idx, citation in enumerate(pesky_list): 
-        citation = re.sub(f'\,','',citation)
-        citation = citation.split(' ') 
-        book = citation[0]
         if re.search('one',book):
             book = re.sub('one','',book)
-            pesky_list[idx] = f'1 {book.capitalize()} {citation[1]}'
+            final_citations.append(f'1 {book.capitalize()} {citation[1]}')
         elif re.search('two',book):
             book = re.sub('two','',book)
-            pesky_list[idx] = f'2 {book.capitalize()} {citation[1]}'
+            final_citations.append(f'2 {book.capitalize()} {citation[1]}')
         elif re.search('three',book):
             book = re.sub('three','',book)
-            pesky_list[idx] = f'3 {book.capitalize()} {citation[1]}'
+            final_citations.append(f'3 {book.capitalize()} {citation[1]}')
         else: 
-            pesky_list[idx] = f'{book.capitalize()} {citation[1]}'
-    return citations_list, pesky_list 
+            final_citations.append(f'{book.capitalize()} {citation[1]}')
+
+    for citation in pesky_list: 
+        citation = re.sub(f'\,','',citation)
+        book = citation.split(' ')[0] 
+        citation = re.sub(book,'',citation)
+        if re.search('one',book):
+            book = re.sub('one','',book)
+            final_pesky.append(f'1 {book.capitalize()} {citation}')
+        elif re.search('two',book):
+            book = re.sub('two','',book)
+            final_pesky.append(f'2 {book.capitalize()} {citation}')
+        elif re.search('three',book):
+            book = re.sub('three','',book)
+            final_pesky.append(f'3 {book.capitalize()} {citation}')
+        else: 
+            final_pesky.append(f'{book.capitalize()} {citation}')
+    return final_citations, final_pesky 

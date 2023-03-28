@@ -85,7 +85,7 @@ def get_features(filePath,type):
             tcpID =  line.split(':')[0]
             features = line.split(':')[1]
             if type == 'topic' or type == 'ngrams': 
-                features = re.sub('\n','',features)
+                features = re.sub('\n|--','',features)
                 features = features.split(' ')
                 if '' in features: features.remove('')
                 dict[tcpID] = features
