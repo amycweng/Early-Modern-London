@@ -124,7 +124,7 @@ def find_titles(ids_list,idToTitle):
 '''
 Charity sermons dataset feature extraction (for use in the sermon_clustering and hierarchical_clustering Jupyter Notebook files)
 '''
-csv_data = pd.read_csv('/Users/amycweng/Digital Humanities/sermons.csv')
+csv_data = pd.read_csv('/Users/amycweng/Digital Humanities/Early-Modern-London/Sermons_Info/sermons.csv')
 all_info = pd.read_csv('/Users/amycweng/Digital Humanities/Early-Modern-London/Relevant_Metadata/charityTCP.csv')
 tcpIDs = [ _ for _ in csv_data['id']]
 idToTitle = {}
