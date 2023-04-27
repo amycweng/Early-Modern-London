@@ -1,0 +1,71 @@
+id,author,audience,location_name,help_poor
+A68088,"Gataker, Thomas, 1574-1654.",funeral,London,TRUE
+A01538,"Gataker, Thomas, 1574-1654.",funeral,London,FALSE
+A01531,"Gataker, Thomas, 1574-1654.",funeral,London,TRUE
+A01528,"Sibbes, Richard, 1577-1635.; Gataker, Thomas, 1574-1654.",funeral,London,FALSE
+A01523,"Gataker, Thomas, 1574-1654.",funeral,All Hallows Bread St,FALSE
+A01547,"Gataker, Thomas, 1574-1654.",funeral,Church of St Mary-at-Lambeth,TRUE
+A19590,"L. D., fl. 1610.; Crashaw, William, 1572-1626.",company,Temple,TRUE
+A02585,"Hall, Joseph, 1574-1656.",hospital,St. Mary Bethlehem,TRUE
+A01970,"Gouge, William, 1578-1653.",company,St Ann Blackfriars,FALSE
+A01539,"Gataker, Thomas, 1574-1654.",local,St Ann Blackfriars,FALSE
+A41670,"Gouge, Thomas, 1605-1681.; Gouge, William, 1578-1653.",local,St Ann Blackfriars,TRUE
+A01979,"Gouge, William, 1578-1653.",local,St Ann Blackfriars,TRUE
+A02537,"Hall, Joseph, 1574-1656.",Inns of Court,Gray's Inn,FALSE
+A55750,"Preston, John, 1587-1628.",monarch,Hinchingbrooke House,TRUE
+A85487,"Gouge, William, 1578-1653.",house of commons,House of Parliament,TRUE
+A85486,"Gouge, William, 1578-1653.",house of lords,House of Parliament,FALSE
+A02566,"Hall, Joseph, 1574-1656.",house of lords,House of Parliament,FALSE
+A02565,"Hall, Joseph, 1574-1656.",house of lords,House of Parliament,FALSE
+A09963,"Preston, John, 1587-1628.",Inns of Court,Lincoln's Inn,FALSE
+A09981,"Preston, John, 1587-1628.",Inns of Court,Lincoln's Inn,FALSE
+A09970,"Preston, John, 1587-1628.; Goodwin, Thomas, 1600-1680.; Ball, Thomas, 1589 or 90-1659.; Glover, George, b. ca. 1618, engraver.",Inns of Court/local,Lincoln's Inn or Cambridge,TRUE
+A09971,"Preston, John, 1587-1628.",Inns of Court/local,Lincoln's Inn or Cambridge,FALSE
+A55748,"Preston, John, 1587-1628.",Inns of Court/local,Lincoln's Inn or Cambridge,FALSE
+A10015,"Preston, John, 1587-1628.",Inns of Court/local,Lincoln's Inn or Cambridge,FALSE
+A55754,"Preston, John, 1587-1628. ",Inns of Court/local,Lincoln's Inn or Cambridge,TRUE
+A09965,"Preston, John, 1587-1628. Three sermons upon the sacrament of the Lords Supper. aut; Preston, John, 1587-1628.",Inns of Court/local,Lincoln's Inn or Cambridge,FALSE
+A10030,"Preston, John, 1587-1628.",Inns of Court/local,Lincoln's Inn or Cambridge,FALSE
+A10024,"Preston, John, 1587-1628.",Inns of Court/local,Lincoln's Inn or Cambridge,FALSE
+A09999,"Sibbes, Richard, 1577-1635.; Preston, John, 1587-1628.; Davenport, John, 1597-1670.",Inns of Court,Lincoln's Inn,FALSE
+A09950,"Preston, John, 1587-1628.; Davenport, John, 1597-1670, ed.; Sibbes, Richard, 1577-1635, ed.",Inns of Court,Lincoln's Inn,TRUE
+A09990,"Sibbes, Richard, 1577-1635.; Preston, John, 1587-1628.; Davenport, John, 1597-1670.",Inns of Court,Lincoln's Inn,TRUE
+A10010,"Sibbes, Richard, 1577-1635.; Davenport, John, 1597-1670.; Preston, John, 1587-1628.",Inns of Court,Lincoln's Inn,TRUE
+A09958,"Marshall, William, fl. 1617-1650, engraver.; Preston, John, 1587-1628.; Goodwin, Thomas, 1600-1680.; Ball, Thomas, 1589 or 90-1659.",local,"Holy Trinity Church, Cambridge",FALSE
+A09977,"Preston, John, 1587-1628.; Goodwin, Thomas, 1600-1680.; Ball, Thomas, 1589 or 90-1659.",local,"Holy Trinity Church, Cambridge",TRUE
+A86974,"Hall, Joseph, 1574-1656.",monarch,Palace of Whitehall,FALSE
+A02519,"Hall, Joseph, 1574-1656.",monarch,Palace of Whitehall,FALSE
+A02589,"Hall, Joseph, 1574-1656.",monarch,Palace of Whitehall,FALSE
+A09967,"Preston, John, 1587-1628.",monarch,Palace of Whitehall,FALSE
+A10018,"Preston, John, 1587-1628.; Goodwin, Thomas, 1600-1680.; Ball, Thomas, 1589 or 90-1659.",monarch,Palace of Whitehall,FALSE
+A10027,"Preston, John, 1587-1628.",monarch,Palace of Whitehall,FALSE
+A02551,"Hall, Joseph, 1574-1656.",monarch,Palace of Whitehall,TRUE
+A14996,"Whately, William, 1583-1639.",local,St Paul's Cross,TRUE
+A19588,"Crashaw, William, 1572-1626.",local,St Paul's Cross,TRUE
+A02547,"Hall, Joseph, 1574-1656.",local,St Paul's Cross,FALSE
+A19589,"Crashaw, William, 1572-1626.",local,St Paul's Cross,TRUE
+A02571,"Hall, Joseph, 1574-1656.",local,St Paul's Cross,TRUE
+A72143,"Gataker, Thomas, 1574-1654.",local,"St Mary's Church, Rotherhithe",TRUE
+A01553,"Gataker, Thomas, 1574-1654.; Bradshaw, William, 1571-1618. aut",wedding,"St Mary's Church, Rotherhithe",TRUE
+A01534,"Gataker, Thomas, 1574-1654. Two mariage sermons.; Gataker, Thomas, 1574-1654.",wedding,"St Mary's Church, Rotherhithe",TRUE
+A01524,"Gataker, Thomas, 1574-1654.",historical,"St Mary's Church, Rotherhithe",FALSE
+A01554,"Gataker, Thomas, 1574-1654.",local,"St Mary's Church, Rotherhithe",TRUE
+A01529,"Gataker, Thomas, 1574-1654.",local,"St Mary's Church, Rotherhithe",TRUE
+A01533,"Gataker, Thomas, 1574-1654.",Inns of Court,Sergeant's Inn,TRUE
+A01548,"Gataker, Thomas, 1574-1654.",Inns of Court,Sergeant's Inn,TRUE
+A70130,"Gouge, William, 1578-1653.",historical,St. Paul's Church,FALSE
+A01980,"Gouge, William, 1578-1653.",historical,Stepney Church,TRUE
+A85485,"Gouge, William, 1578-1653.",house of lords,Westminster Abbey,TRUE
+A01530,"Gataker, Thomas, 1574-1654.",school,Tonbridge Free School,TRUE
+B13878,"Hall, Joseph, 1574-1656.",monarch,Theobalds Palace,FALSE
+A02591,"Hall, Joseph, 1574-1656.",monarch,Theobalds Palace,FALSE
+A02517,"Hall, Joseph, 1574-1656.",monarch,Theobalds Palace,FALSE
+A15010,"Whately, William, 1583-1639.",local,"St. Mary's Church, Banbury",TRUE
+A68877,"Whately, William, 1583-1639.",local,"St. Mary's Church, Banbury",TRUE
+A15012,"Whately, William, 1583-1639.",local,"St. Mary's Church, Banbury",TRUE
+A15003,"Whately, William, 1583-1639.",local,"St. Mary's Church, Banbury",TRUE
+A15015,"Whately, William, 1583-1639.",local,"St. Mary's Church, Banbury",TRUE
+A14989,"Whately, William, 1583-1639.",wedding,"St. Mary's Church, Banbury",FALSE
+A65610,"Baxter, Richard, 1615-1691.; Whately, William, 1583-1639.",local,"St. Mary's Church, Banbury",TRUE
+A45303,"Hall, Joseph, 1574-1656.",westminster assembly,Westminster Abbey,TRUE
+A02549,"Hall, Joseph, 1574-1656.",parliament,House of Parliament,TRUE
